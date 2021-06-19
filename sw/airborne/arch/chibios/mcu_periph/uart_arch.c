@@ -1001,6 +1001,8 @@ void uart_periph_set_mode(struct uart_periph *p __attribute__((unused)), bool tx
 
 #if defined STM32F7
 #define __USART_CR1_M USART_CR1_M_0
+#elif defined(STM32H7)
+#define __USART_CR1_M USART_CR1_M0
 #elif defined STM32F1 || defined STM32F4 || defined STM32F3
 #define __USART_CR1_M USART_CR1_M
 #else
@@ -1049,7 +1051,7 @@ void uart_periph_set_bits_stop_parity(struct uart_periph *p,
   sdStart((SerialDriver *)(p->reg_addr), conf);
 }
 
-#ifdef STM32F7
+#if defined(STM32F7) || defined(STM32H7)
 /**
  * Invert data logic
  */
