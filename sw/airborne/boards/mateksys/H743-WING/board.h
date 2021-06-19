@@ -19,8 +19,8 @@
 /*
  * Board identifier.
  */
-#define BOARD_MATEKF765_WING
-#define BOARD_NAME                  "MATEKSYS F765-WING"
+#define BOARD_MATEKH743_WING
+#define BOARD_NAME                  "MATEKSYS H743-WING"
 
 /*
  * Board oscillators-related settings.
@@ -44,8 +44,9 @@
 /*
  * MCU type as defined in the ST header.
  */
-#define STM32F767xx
-//#define STM32H743xx
+
+#define STM32H743xx
+
 
 /*
  * IO pins assignments.
@@ -237,75 +238,76 @@
 #define PK14                           14U
 #define PK15                           15U
 
-
 /*
- * IO lines assignments.
-// INAV DEFINITIONS FOR MATEK F765 WING
 
-#define LED0                    PD10
-#define LED1                    PD11
+#define TARGET_BOARD_IDENTIFIER "M743"
+#define USBD_PRODUCT_STRING  "MATEK-H743"
 
-#define BEEPER                  PB9
+#define LED0_PIN                PE3  //Blue
+#define LED1_PIN                PE4  //Green
 
-// *************** SPI1 MPU6000 *******************
-#define USE_SPI
+#define USE_BEEPER
+#define BEEPER_PIN              PA15
+#define BEEPER_INVERTED
+#define BEEPER_PWM_HZ           2500 
+
+// *************** SPI1 & SPI4, Gyro & ACC *******************
+
 #define USE_SPI_DEVICE_1
+#define GYRO_1_SPI_INSTANCE     SPI1   //MPU6000
 #define SPI1_SCK_PIN            PA5
 #define SPI1_MISO_PIN           PA6
-#define SPI1_MOSI_PIN           PA7
-#define MPU6000_CS_PIN          PC4
-#define MPU6000_EXTI_PIN        PB2
+#define SPI1_MOSI_PIN           PD7
+#define GYRO_1_CS_PIN           PC15
+#define GYRO_1_EXTI_PIN         PB2
+
+#define USE_SPI_DEVICE_4 
+#define GYRO_2_SPI_INSTANCE     SPI4  //ICM20602
+#define SPI4_SCK_PIN            PE12
+#define SPI4_MISO_PIN           PE13
+#define SPI4_MOSI_PIN           PE14
+#define GYRO_2_CS_PIN           PE11
+#define GYRO_2_EXTI_PIN         PE15
 
 // *************** SPI2 OSD ***********************
+
 #define USE_SPI_DEVICE_2
 #define SPI2_SCK_PIN            PB13
 #define SPI2_MISO_PIN           PB14
 #define SPI2_MOSI_PIN           PB15
-#define MAX7456_CS_PIN          PB12
 
-/ *************** SPI3 MPU6500 ***********************
+#define USE_MAX7456
+#define MAX7456_SPI_INSTANCE    SPI2
+#define MAX7456_SPI_CS_PIN      PB12
+
+// *************** SPI3 ***************************
+
 #define USE_SPI_DEVICE_3
 #define SPI3_SCK_PIN            PB3
 #define SPI3_MISO_PIN           PB4
 #define SPI3_MOSI_PIN           PB5
-#define MPU6500_CS_PIN          PD7
-#define MPU6500_EXTI_PIN        PD4
-
-// *************** SPI4 ******************************
-
-//#define USE_SPI_DEVICE_4
-//#define SPI4_SCK_PIN          PE12
-//#define SPI4_MISO_PIN         PE13
-//#define SPI4_MOSI_PIN         PE14
-
-
-
-#define USE_DUAL_GYRO
-
-#define IMU_MPU6000_ALIGN       CW90_DEG_FLIP
-#define MPU6000_SPI_BUS         BUS_SPI1
-#define MPU6000_CS_PIN          PC4
-#define MPU6000_EXTI_PIN        PB2
-
-#define USE_IMU_MPU6500
-#define IMU_MPU6500_ALIGN       CW270_DEG_FLIP
-#define MPU6500_SPI_BUS         BUS_SPI3
-#define MPU6500_CS_PIN          PD7
-#define MPU6500_EXTI_PIN        PD4
+//#define xxx_CS_PIN            PD4
 
 // *************** I2C /Baro/Mag *********************
+
 #define USE_I2C
-#define USE_I2C_DEVICE_1
+
+#define USE_I2C_DEVICE_1        
+#define I2C_DEVICE_1            (I2CDEV_1)
 #define I2C1_SCL                PB6
 #define I2C1_SDA                PB7
 
+#define MAG_I2C_INSTANCE        (I2CDEV_1)
+
 #define USE_I2C_DEVICE_2
+#define I2C_DEVICE_2            (I2CDEV_2)
 #define I2C2_SCL                PB10
 #define I2C2_SDA                PB11
 
 // *************** UART *****************************
+
 #define USE_VCP
-#define USB_DETECT_PIN          PA15
+#define USB_DETECT_PIN          PE2
 #define USE_USB_DETECT
 
 #define USE_UART1
@@ -321,12 +323,12 @@
 #define UART3_RX_PIN            PD9
 
 #define USE_UART4
-#define UART4_TX_PIN            PD1
-#define UART4_RX_PIN            PD0
+#define UART4_TX_PIN            PB9
+#define UART4_RX_PIN            PB8
 
 #define USE_UART6
 #define UART6_TX_PIN            PC6
-#define UART6_RX_PIN            PC7
+#define UART6_RX_PIN            PC7  //PPM
 
 #define USE_UART7
 #define UART7_TX_PIN            PE8
@@ -335,59 +337,87 @@
 #define USE_UART8
 #define UART8_TX_PIN            PE1
 #define UART8_RX_PIN            PE0
+     
+#define SERIAL_PORT_COUNT       9
+
+#define DEFAULT_RX_FEATURE      FEATURE_RX_SERIAL
+#define SERIALRX_PROVIDER       SERIALRX_SBUS
+#define SERIALRX_UART           SERIAL_PORT_USART6
+
+// *************** SDIO BLACKBOX*******************
+
+#define USE_SDCARD
+#define USE_SDCARD_SDIO
+#define SDCARD_DETECT_PIN       NONE
+#define SDIO_DEVICE             SDIODEV_1
+#define SDIO_USE_4BIT           true
+#define SDIO_CK_PIN             PC12
+#define SDIO_CMD_PIN            PD2
+#define SDIO_D0_PIN             PC8
+#define SDIO_D1_PIN             PC9
+#define SDIO_D2_PIN             PC10
+#define SDIO_D3_PIN             PC11
 
 // *************** ADC *****************************
+#define USE_DMA
+#define ADC1_DMA_OPT 8
+#define ADC3_DMA_OPT 9
+
 #define USE_ADC
-#define ADC_INSTANCE                ADC1
+#define USE_ADC_INTERNAL   // ADC3
+#define ADC1_INSTANCE ADC1
+#define ADC3_INSTANCE ADC3
 
-#define ADC_CHANNEL_1_PIN           PC2
-#define ADC_CHANNEL_2_PIN           PC3
-#define ADC_CHANNEL_3_PIN           PC1
-#define ADC_CHANNEL_4_PIN           PC0
-#define ADC_CHANNEL_5_PIN           PA4 //VBAT2
-#define ADC_CHANNEL_6_PIN           PC5 //CURR2
+#define VBAT_ADC_PIN            PC0  //ADC123 VBAT1 
+#define CURRENT_METER_ADC_PIN   PC1  //ADC123 CURR1
+#define RSSI_ADC_PIN            PC5  //ADC12  RSSI
+#define EXTERNAL1_ADC_PIN       PC4  //ADC12  AirS
+#define EXTERNAL2_ADC_PIN       PA4  //ADC12  VB2 
+#define EXTERNAL3_ADC_PIN       PA7  //ADC12  CU2
 
-#define VBAT_ADC_CHANNEL            ADC_CHN_1
-#define CURRENT_METER_ADC_CHANNEL   ADC_CHN_2
-#define RSSI_ADC_CHANNEL            ADC_CHN_3
-#define AIRSPEED_ADC_CHANNEL        ADC_CHN_4
+#define DEFAULT_VOLTAGE_METER_SOURCE VOLTAGE_METER_ADC
+#define VBAT_SCALE_DEFAULT            110
+#define DEFAULT_CURRENT_METER_SOURCE CURRENT_METER_ADC
+#define CURRENT_METER_SCALE_DEFAULT   250
 
 // *************** PINIO ***************************
-#define PINIO1_PIN                  PE4  // VTX power switcher
-#define PINIO2_PIN                  PE15 // 2xCamera switcher
 
-// *************** LEDSTRIP ************************
-#define USE_LED_STRIP
-#define WS2811_PIN                  PA8
+#define USE_PINIO
+#define PINIO1_PIN              PD10  // Vsw power switch
+#define PINIO2_PIN              PD11  // Camera switch
+#define USE_PINIOBOX
 
 const timerHardware_t timerHardware[] = {
-    DEF_TIM(TIM2,  CH1, PA0,  TIM_USE_MC_MOTOR | TIM_USE_FW_MOTOR, 0, 0),   // S1  UP(1,7), D(1,5,3)
-    DEF_TIM(TIM2,  CH2, PA1,  TIM_USE_MC_MOTOR | TIM_USE_FW_MOTOR, 0, 0),   // S2  UP(1,7), D(1,6,3)
+    DEF_TIM(TIM3, CH3, PB0, TIM_USE_MC_MOTOR | TIM_USE_FW_MOTOR, 0, 2),   // S1
+    DEF_TIM(TIM3, CH4, PB1, TIM_USE_MC_MOTOR | TIM_USE_FW_MOTOR, 0, 2),   // S2
 
-    DEF_TIM(TIM5,  CH3, PA2,  TIM_USE_MC_MOTOR | TIM_USE_FW_SERVO, 0, 0),   // S3  UP(1,0), D(1,0,6)*
-    DEF_TIM(TIM5,  CH4, PA3,  TIM_USE_MC_MOTOR | TIM_USE_FW_SERVO, 0, 0),   // S4  UP(1,0), D(1,1,6)
-    DEF_TIM(TIM3,  CH3, PB0,  TIM_USE_MC_MOTOR | TIM_USE_FW_SERVO, 0, 0),   // S5  UP(1,2), D(1,7,5)**
-    DEF_TIM(TIM3,  CH4, PB1,  TIM_USE_MC_MOTOR | TIM_USE_FW_SERVO, 0, 0),   // S6  UP(1,2), D(1,2,5)
+    DEF_TIM(TIM5, CH1, PA0, TIM_USE_MC_MOTOR | TIM_USE_FW_SERVO, 0, 0),   // S3  
+    DEF_TIM(TIM5, CH2, PA1, TIM_USE_MC_MOTOR | TIM_USE_FW_SERVO, 0, 0),   // S4
+    DEF_TIM(TIM5, CH3, PA2, TIM_USE_MC_MOTOR | TIM_USE_FW_SERVO, 0, 0),   // S5
+    DEF_TIM(TIM5, CH4, PA3, TIM_USE_MC_MOTOR | TIM_USE_FW_SERVO, 0, 0),   // S6
 
-    DEF_TIM(TIM4, CH1, PD12,  TIM_USE_MC_SERVO | TIM_USE_FW_SERVO, 0, 0),   // S7  UP(1,6), D(1,0,2)*
-    DEF_TIM(TIM4, CH2, PD13,  TIM_USE_MC_SERVO | TIM_USE_FW_SERVO, 0, 0),   // S8  UP(1,6), D(1,3,2)
-    DEF_TIM(TIM4, CH3, PD14,  TIM_USE_MC_SERVO | TIM_USE_FW_SERVO, 0, 0),   // S9  UP(1,6), D(1,7,2)**
-    DEF_TIM(TIM4, CH4, PD15,  TIM_USE_MC_SERVO | TIM_USE_FW_SERVO, 0, 0),   // S10 UP(1,6)
+    DEF_TIM(TIM4, CH1, PD12, TIM_USE_MC_SERVO | TIM_USE_FW_SERVO, 0, 1),   // S7
+    DEF_TIM(TIM4, CH2, PD13, TIM_USE_MC_SERVO | TIM_USE_FW_SERVO, 0, 1),   // S8
+    DEF_TIM(TIM4, CH3, PD14, TIM_USE_MC_SERVO | TIM_USE_FW_SERVO, 0, 1),   // S9
+    DEF_TIM(TIM4, CH4, PD15, TIM_USE_MC_SERVO | TIM_USE_FW_SERVO, 0, 0),   // S10 DMA_NONE
 
-    DEF_TIM(TIM9, CH1, PE5,   TIM_USE_MC_MOTOR | TIM_USE_FW_SERVO, 0, 0),   // S11
-    DEF_TIM(TIM9, CH2, PE6,   TIM_USE_MC_MOTOR | TIM_USE_FW_SERVO, 0, 0),   // S12
+    DEF_TIM(TIM15, CH1, PE5, TIM_USE_MC_MOTOR | TIM_USE_FW_SERVO, 0, 0),   // S11
+    DEF_TIM(TIM15, CH2, PE6, TIM_USE_MC_MOTOR | TIM_USE_FW_SERVO, 0, 0),   // S12
 
-    DEF_TIM(TIM1, CH1, PA8,   TIM_USE_LED, 0, 0),        // LED_2812  D(2,6,0)
+    DEF_TIM(TIM1,  CH1, PA8,  TIM_USE_LED, 0, 0),    // LED_2812
+    DEF_TIM(TIM2,  CH1, PA15, TIM_USE_BEEPER, 0, 0),  // BEEPER PWM
 
-    DEF_TIM(TIM8, CH2, PC7,   TIM_USE_PPM, 0, 0),        // RX6 PPM
-    DEF_TIM(TIM8, CH1, PC6,   TIM_USE_ANY, 0, 0),        // TX6
-};
+    DEF_TIM(TIM8,  CH2, PC7,  TIM_USE_PPM, 0, 0),   // RX6 PPM
+    DEF_TIM(TIM8,  CH1, PC6,  TIM_USE_ANY, 0, 0),   // TX6    
+    DEF_TIM(TIM16, CH1, PB8,  TIM_USE_ANY, 0, 0),   // RX4
+    DEF_TIM(TIM17, CH1, PB9,  TIM_USE_ANY, 0, 0),   // TX4
 */
+#define LINE_RFM_EXTI                  PAL_LINE(GPIOB, 9U)
 
-#define LINE_S1                        PAL_LINE(GPIOA, 0U)
-#define LINE_S2                        PAL_LINE(GPIOA, 1U)
-#define LINE_S3                        PAL_LINE(GPIOA, 2U)
-#define LINE_S4                        PAL_LINE(GPIOA, 3U)
+#define LINE_S1                        PAL_LINE(GPIOB, 0U)
+#define LINE_S2                        PAL_LINE(GPIOB, 1U)
+#define LINE_S3                        PAL_LINE(GPIOA, 0U)
+#define LINE_S4                        PAL_LINE(GPIOA, 1U)
 #define LINE_VBAT2                     PAL_LINE(GPIOA, 4U)
 #define LINE_SPI1_SCK                  PAL_LINE(GPIOA, 5U)
 #define LINE_SPI1_MISO                 PAL_LINE(GPIOA, 6U)
@@ -400,9 +430,8 @@ const timerHardware_t timerHardware[] = {
 #define LINE_SWDIO                     PAL_LINE(GPIOA, 13U)
 #define LINE_SWCLK                     PAL_LINE(GPIOA, 14U)
 
-#define LINE_S5                        PAL_LINE(GPIOB, 0U)
-#define LINE_S6                        PAL_LINE(GPIOB, 1U)
-#define LINE_IMU1_EXTI_PIN             PAL_LINE(GPIOB, 2U)
+#define LINE_S5                        PAL_LINE(GPIOA, 2U)
+#define LINE_S6                        PAL_LINE(GPIOA, 3U)
 #define LINE_SPI3_SCK                  PAL_LINE(GPIOB, 3U)
 #define LINE_SPI3_MISO                 PAL_LINE(GPIOB, 4U)
 #define LINE_SPI3_MOSI                 PAL_LINE(GPIOB, 5U)
@@ -450,7 +479,6 @@ const timerHardware_t timerHardware[] = {
 
 #define LINE_UART8_RX                  PAL_LINE(GPIOE, 0U)
 #define LINE_UART8_TX                  PAL_LINE(GPIOE, 1U)
-#define LINE_VOLTAGE_SWITCH            PAL_LINE(GPIOE, 4U) // SWITCHES THE Vsw PAD BETWEEN 5 AND 9 VOLTS, 1A MAX!
 #define LINE_S11                       PAL_LINE(GPIOE, 5U)
 #define LINE_S12                       PAL_LINE(GPIOE, 6U)
 #define LINE_UART7_RX                  PAL_LINE(GPIOE, 7U)
@@ -461,81 +489,81 @@ const timerHardware_t timerHardware[] = {
 #define LINE_SPI4_CLK                  PAL_LINE(GPIOE, 12U)
 #define LINE_SPI4_MISO                 PAL_LINE(GPIOE, 13U)
 #define LINE_SPI4_MOSI                 PAL_LINE(GPIOE, 14U)
-#define LINE_CAMERA_SWITCH             PAL_LINE(GPIOE, 15U) // SWITCHES THE CAMERAS, DEFAULT IS CAMERA 1
 
 #define LINE_OSC_IN                    PAL_LINE(GPIOH, 0U)
 #define LINE_OSC_OUT                   PAL_LINE(GPIOH, 1U)
 
-#define LINE_RFM_EXTI                  LINE_ALARM
 
 
 /*
 const timerHardware_t timerHardware[] = {
-    DEF_TIM(TIM2,  CH1, PA0,  TIM_USE_MC_MOTOR | TIM_USE_FW_MOTOR, 0, 0),   // S1  UP(1,7), D(1,5,3)
-    DEF_TIM(TIM2,  CH2, PA1,  TIM_USE_MC_MOTOR | TIM_USE_FW_MOTOR, 0, 0),   // S2  UP(1,7), D(1,6,3)
+    DEF_TIM(TIM3, CH3, PB0, TIM_USE_MC_MOTOR | TIM_USE_FW_MOTOR, 0, 2),   // S1
+    DEF_TIM(TIM3, CH4, PB1, TIM_USE_MC_MOTOR | TIM_USE_FW_MOTOR, 0, 2),   // S2
 
-    DEF_TIM(TIM5,  CH3, PA2,  TIM_USE_MC_MOTOR | TIM_USE_FW_SERVO, 0, 0),   // S3  UP(1,0), D(1,0,6)*
-    DEF_TIM(TIM5,  CH4, PA3,  TIM_USE_MC_MOTOR | TIM_USE_FW_SERVO, 0, 0),   // S4  UP(1,0), D(1,1,6)
-    DEF_TIM(TIM3,  CH3, PB0,  TIM_USE_MC_MOTOR | TIM_USE_FW_SERVO, 0, 0),   // S5  UP(1,2), D(1,7,5)**
-    DEF_TIM(TIM3,  CH4, PB1,  TIM_USE_MC_MOTOR | TIM_USE_FW_SERVO, 0, 0),   // S6  UP(1,2), D(1,2,5)
+    DEF_TIM(TIM5, CH1, PA0, TIM_USE_MC_MOTOR | TIM_USE_FW_SERVO, 0, 0),   // S3  
+    DEF_TIM(TIM5, CH2, PA1, TIM_USE_MC_MOTOR | TIM_USE_FW_SERVO, 0, 0),   // S4
+    DEF_TIM(TIM5, CH3, PA2, TIM_USE_MC_MOTOR | TIM_USE_FW_SERVO, 0, 0),   // S5
+    DEF_TIM(TIM5, CH4, PA3, TIM_USE_MC_MOTOR | TIM_USE_FW_SERVO, 0, 0),   // S6
 
-    DEF_TIM(TIM4, CH1, PD12,  TIM_USE_MC_SERVO | TIM_USE_FW_SERVO, 0, 0),   // S7  UP(1,6), D(1,0,2)*
-    DEF_TIM(TIM4, CH2, PD13,  TIM_USE_MC_SERVO | TIM_USE_FW_SERVO, 0, 0),   // S8  UP(1,6), D(1,3,2)
-    DEF_TIM(TIM4, CH3, PD14,  TIM_USE_MC_SERVO | TIM_USE_FW_SERVO, 0, 0),   // S9  UP(1,6), D(1,7,2)**
-    DEF_TIM(TIM4, CH4, PD15,  TIM_USE_MC_SERVO | TIM_USE_FW_SERVO, 0, 0),   // S10 UP(1,6)
+    DEF_TIM(TIM4, CH1, PD12, TIM_USE_MC_SERVO | TIM_USE_FW_SERVO, 0, 1),   // S7
+    DEF_TIM(TIM4, CH2, PD13, TIM_USE_MC_SERVO | TIM_USE_FW_SERVO, 0, 1),   // S8
+    DEF_TIM(TIM4, CH3, PD14, TIM_USE_MC_SERVO | TIM_USE_FW_SERVO, 0, 1),   // S9
+    DEF_TIM(TIM4, CH4, PD15, TIM_USE_MC_SERVO | TIM_USE_FW_SERVO, 0, 0),   // S10 DMA_NONE
 
-    DEF_TIM(TIM9, CH1, PE5,   TIM_USE_MC_MOTOR | TIM_USE_FW_SERVO, 0, 0),   // S11
-    DEF_TIM(TIM9, CH2, PE6,   TIM_USE_MC_MOTOR | TIM_USE_FW_SERVO, 0, 0),   // S12
+    DEF_TIM(TIM15, CH1, PE5, TIM_USE_MC_MOTOR | TIM_USE_FW_SERVO, 0, 0),   // S11
+    DEF_TIM(TIM15, CH2, PE6, TIM_USE_MC_MOTOR | TIM_USE_FW_SERVO, 0, 0),   // S12
 
-    DEF_TIM(TIM1, CH1, PA8,   TIM_USE_LED, 0, 0),        // LED_2812  D(2,6,0)
+    DEF_TIM(TIM1,  CH1, PA8,  TIM_USE_LED, 0, 0),    // LED_2812
+    DEF_TIM(TIM2,  CH1, PA15, TIM_USE_BEEPER, 0, 0),  // BEEPER PWM
 
-    DEF_TIM(TIM8, CH2, PC7,   TIM_USE_PPM, 0, 0),        // RX6 PPM
-    DEF_TIM(TIM8, CH1, PC6,   TIM_USE_ANY, 0, 0),        // TX6
-};
+    DEF_TIM(TIM8,  CH2, PC7,  TIM_USE_PPM, 0, 0),   // RX6 PPM
+    DEF_TIM(TIM8,  CH1, PC6,  TIM_USE_ANY, 0, 0),   // TX6    
+    DEF_TIM(TIM16, CH1, PB8,  TIM_USE_ANY, 0, 0),   // RX4
+    DEF_TIM(TIM17, CH1, PB9,  TIM_USE_ANY, 0, 0),   // TX4
 */
 
 //***********************   SERVOS   ***********************//
-#define AF_S1        1U
-#define AF_LINE_S1   1U
-#define S1_TIM       2
+#define AF_S1        2U
+#define AF_LINE_S1   2U
+#define S1_TIM       3
 #define S1_TIM_FN    CH
-#define S1_TIM_CH    1
-#define S1_TIM_AF    1
+#define S1_TIM_CH    3
+#define S1_TIM_AF    2
 
-#define AF_S2        1U
-#define AF_LINE_S2   1U
-#define S2_TIM       2
+#define AF_S2        2U
+#define AF_LINE_S2   2U
+#define S2_TIM       3
 #define S2_TIM_FN    CH
-#define S2_TIM_CH    2
-#define S2_TIM_AF    1
+#define S2_TIM_CH    4
+#define S2_TIM_AF    2
 
 #define AF_S3        2U
 #define AF_LINE_S3   2U
 #define S3_TIM       5
 #define S3_TIM_FN    CH
-#define S3_TIM_CH    3
+#define S3_TIM_CH    1
 #define S3_TIM_AF    2
 
 #define AF_S4        2U
 #define AF_LINE_S4   2U
 #define S4_TIM       5
 #define S4_TIM_FN    CH
-#define S4_TIM_CH    4
+#define S4_TIM_CH    2
 #define S4_TIM_AF    2
 
-#define AF_S5        2U
-#define AF_LINE_S5   2U
-#define S5_TIM       3
+#define AF_S5        3U
+#define AF_LINE_S5   3U
+#define S5_TIM       5
 #define S5_TIM_FN    CH
 #define S5_TIM_CH    3
-#define S5_TIM_AF    2
+#define S5_TIM_AF    3
 
-#define AF_S6        2U
-#define AF_LINE_S6   2U
-#define S6_TIM       3
+#define AF_S6        3U
+#define AF_LINE_S6   3U
+#define S6_TIM       5
 #define S6_TIM_FN    CH
 #define S6_TIM_CH    4
-#define S6_TIM_AF    2
+#define S6_TIM_AF    3
 
 #define AF_S7        2U
 #define AF_LINE_S7   2U
@@ -565,36 +593,36 @@ const timerHardware_t timerHardware[] = {
 #define S10_TIM_CH   4
 #define S10_TIM_AF   2
 
-#define AF_S11       3U
-#define AF_LINE_S11  3U
-#define S11_TIM      9
+#define AF_S11       4U
+#define AF_LINE_S11  4U
+#define S11_TIM      15
 #define S11_TIM_FN   CH
 #define S11_TIM_CH   1
-#define S11_TIM_AF   3
+#define S11_TIM_AF   4
 
-#define AF_S12       3U
-#define AF_LINE_S12  3U
-#define S12_TIM      9
+#define AF_S12       4U
+#define AF_LINE_S12  4U
+#define S12_TIM      15
 #define S12_TIM_FN   CH
 #define S12_TIM_CH   2
-#define S12_TIM_AF   3
+#define S12_TIM_AF   4
 
 //***********************   SPI   ***********************//
-#define AF_SPI1_CLK          5U
+#define AF_SPI1_SCK          5U
 #define AF_LINE_SPI1_SCK     5U
 #define AF_SPI1_MISO         5U
 #define AF_LINE_SPI1_MISO    5U
 #define AF_SPI1_MOSI         5U
 #define AF_LINE_SPI1_MOSI    5U
 
-#define AF_SPI2_CLK          5U
+#define AF_SPI2_SCK          5U
 #define AF_LINE_SPI2_SCK     5U
 #define AF_SPI2_MISO         5U
 #define AF_LINE_SPI2_MISO    5U
 #define AF_SPI2_MOSI         5U
 #define AF_LINE_SPI2_MOSI    5U
 
-#define AF_SPI3_CLK          6U
+#define AF_SPI3_SCK          6U
 #define AF_LINE_SPI3_SCK     6U
 #define AF_SPI3_MISO         6U
 #define AF_LINE_SPI3_MISO    6U
@@ -651,105 +679,105 @@ const timerHardware_t timerHardware[] = {
 #define AF_OTG_FS_DP         10U
 #define AF_LINE_OTG_FS_DP    10U
 
-#define AF_SWDIO              0U
-#define AF_LINE_SWDIO         0U
-#define AF_SWCLK              0U
-#define AF_LINE_SWCLK         0U
+#define AF_SWDIO             0U
+#define AF_LINE_SWDIO        0U
+#define AF_SWCLK             0U
+#define AF_LINE_SWCLK        0U
 
-//************************   I2C   *************************//
-#define AF_I2C1_SCL           4U
-#define AF_LINE_I2C1_SCL      4U
-#define AF_I2C1_SDA           4U
-#define AF_LINE_I2C1_SDA      4U
+//***********************   I2C   ***********************//
+#define AF_I2C1_SCL          4U
+#define AF_LINE_I2C1_SCL     4U
+#define AF_I2C1_SDA          4U
+#define AF_LINE_I2C1_SDA     4U
 
-#define AF_I2C2_SCL           4U
-#define AF_LINE_I2C2_SCL      4U
-#define AF_I2C2_SDA           4U
-#define AF_LINE_I2C2_SDA      4U
+#define AF_I2C2_SCL          4U
+#define AF_LINE_I2C2_SCL     4U
+#define AF_I2C2_SDA          4U
+#define AF_LINE_I2C2_SDA     4U
 
-//************************  SDCARD  ************************//
-#define AF_SDMMC1_D0          12U
-#define AF_LINE_SDMMC1_D0     12U
-#define AF_SDMMC1_D1          12U
-#define AF_LINE_SDMMC1_D1     12U
-#define AF_SDMMC1_D2          12U
-#define AF_LINE_SDMMC1_D2     12U
-#define AF_SDMMC1_D3          12U
-#define AF_LINE_SDMMC1_D3     12U
-#define AF_SDMMC1_CK          12U
-#define AF_LINE_SDMMC1_CK     12U
+//**********************  SD CARD   *********************//
+#define AF_SDMMC1_D0         12U
+#define AF_LINE_SDMMC1_D0    12U
+#define AF_SDMMC1_D1         12U
+#define AF_LINE_SDMMC1_D1    12U
+#define AF_SDMMC1_D2         12U
+#define AF_LINE_SDMMC1_D2    12U
+#define AF_SDMMC1_D3         12U
+#define AF_LINE_SDMMC1_D3    12U
+#define AF_SDMMC1_CK         12U
+#define AF_LINE_SDMMC1_CK    12U
 
-//**************************   ADC  ************************//
-#define AIRSPEED_ADC            1
-#define AIRSPEED_ADC_FN         IN
-#define AIRSPEED_ADC_IN         10
+#define AF_SDMMC1_CMD        12U
+#define AF_LINE_SDMMC1_CMD   12U
 
-#define RSSI_ADC                1
-#define RSSI_ADC_FN             IN
-#define RSSI_ADC_IN             11
+//************************   ADC   **********************//
+#define AIRSPEED_ADC          1
+#define AIRSPEED_ADC_FN       IN
+#define AIRSPEED_ADC_IN       10
 
-#define VBAT_MEAS_ADC           1
-#define VBAT_MEAS_ADC_FN        IN
-#define VBAT_MEAS_ADC_IN        12
+#define RSSI_ADC              1
+#define RSSI_ADC_FN           IN
+#define RSSI_ADC_IN           11
 
-#define CURRENT_MEAS_ADC        1
-#define CURRENT_MEAS_ADC_FN     IN
-#define CURRENT_MEAS_ADC_IN     13
+#define VBAT_MEAS_ADC         1
+#define VBAT_MEAS_ADC_FN      IN
+#define VBAT_MEAS_ADC_IN      12
 
-//************************  PPM IN  ************************//
-#define RC1_TIM                 8
-#define RC1_TIM_FN              CH
-#define RC1_TIM_CH              2
-#define RC1_TIM_AF              2
-#define RC1_USART               6
-#define RC1_USART_FN            RX
-#define RC1_USART_AF            8
+#define CURRENT_MEAS_ADC      1
+#define CURRENT_MEAS_ADC_FN   IN
+#define CURRENT_MEAS_ADC_IN   13
 
-#define RC2_TIM                 8
-#define RC2_TIM_FN              CH
-#define RC2_TIM_CH              1
-#define RC2_TIM_AF              3
-#define RC2_USART               6
-#define RC2_USART_FN            TX
-#define RC2_USART_AF            8
+//**********************   PPN IN   ***********************//
+#define RC1_TIM               8
+#define RC1_TIM_FN            CH
+#define RC1_TIM_CH            2
+#define RC1_TIM_AF            3
+#define RC1_USART             6
+#define RC1_USART_FN          RX
+#define RC1_USART_AF          8
 
-//*************************  CAN BUS  ***********************//
-#define UART4_RX_CAN            1
-#define UART4_RX_CAN_FN         RX
-#define UART4_RX_CAN_AF         9
-#define UART4_TX_CAN            1
-#define UART4_TX_CAN_FN         TX
-#define UART4_TX_CAN_AF         9
+#define RC2_TIM               8
+#define RC2_TIM_FN            CH
+#define RC2_TIM_CH            1
+#define RC2_TIM_AF            3
+#define RC2_USART             6
+#define RC2_USART_FN          TX
+#define RC2_USART_AF          8
 
-//*************************  VARIUS  ***********************//
-#define AF_OSC32_IN            0U
-#define AF_LINE_OSC32_IN       0U
-#define AF_OSC32_OUT           0U
-#define AF_LINE_OSC32_OUT      0U
+//**********************   CAN BUS   ***********************//
+#define UART4_RX_CAN          1
+#define UART4_RX_CAN_FN       RX
+#define UART4_RX_CAN_AF       9
+#define UART4_TX_CAN          1
+#define UART4_TX_CAN_FN       TX
+#define UART4_TX_CAN_AF       9
 
-#define AF_SDMMC1_CMD          12U
-#define AF_LINE_SDMMC1_CMD     12U
+//**********************   VARIUS   ***********************//
+#define AF_OSC32_IN          0U
+#define AF_LINE_OSC32_IN     0U
+#define AF_OSC32_OUT         0U
+#define AF_LINE_OSC32_OUT    0U
 
-#define AF_OSC_IN               0U
-#define AF_LINE_OSC_IN          0U
-#define AF_OSC_OUT              0U
-#define AF_LINE_OSC_OUT         0U
+#define AF_OSC_IN            0U
+#define AF_LINE_OSC_IN       0U
+#define AF_OSC_OUT           0U
+#define AF_LINE_OSC_OUT      0U
 
-#define AF_LED_WS2812           1U
-#define AF_LINE_LED_WS2812      1U
+#define AF_LED_WS2812        1U
+#define AF_LINE_LED_WS2812   1U
 
-#define LED_WS2812_TIM          1
-#define LED_WS2812_TIM_FN       CH
-#define LED_WS2812_TIM_CH       1
-#define LED_WS2812_TIM_AF       1
+#define LED_WS2812_TIM        1
+#define LED_WS2812_TIM_FN     CH
+#define LED_WS2812_TIM_CH     1
+#define LED_WS2812_TIM_AF     1
+ 
+#define AF_ALARM              3U
+#define AF_LINE_ALARM         3U
 
-#define AF_ALARM                3U
-#define AF_LINE_ALARM           3U
-
-#define ALARM_TIM               11
-#define ALARM_TIM_FN            CH
-#define ALARM_TIM_CH            1
-#define ALARM_TIM_AF            3
+#define ALARM_TIM             11
+#define ALARM_TIM_FN          CH
+#define ALARM_TIM_CH          1
+#define ALARM_TIM_AF          3
 
 
 /*
