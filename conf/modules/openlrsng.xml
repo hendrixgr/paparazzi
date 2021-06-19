@@ -18,8 +18,8 @@
   <periodic fun="rfm_periodic()" freq="120" autorun="TRUE"/>
   <event fun="rfm_event()"/>
   <makefile target="ap">
-    <configure name="OPENLRSNG_SPI_DEV" default="spi2" case="upper|lower"/>
-    <configure name="OPENLRSNG_SLAVE_IDX" default="spi_slave3" case="upper|lower"/>
+    <configure name="OPENLRSNG_SPI_DEV" default="spi4" case="upper|lower"/>
+    <configure name="OPENLRSNG_SLAVE_IDX" default="spi_slave4" case="upper|lower"/>
     <define name="USE_$(OPENLRSNG_SPI_DEV_UPPER)" />
     <define name="USE_$(OPENLRSNG_SLAVE_IDX_UPPER)" />
     <define name="OPENLRSNG_SPI_DEV" value="$(OPENLRSNG_SPI_DEV_LOWER)" />
