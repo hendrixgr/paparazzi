@@ -117,9 +117,11 @@ void uart_put_byte(struct uart_periph *p, long fd __attribute__((unused)), uint8
   if (temp == p->tx_extract_idx) {
     return;  // no room
   }
-
   USART_CR1((uint32_t)p->reg_addr) &= ~USART_CR1_TXEIE; // Disable TX interrupt
 
+#if defined(USE_DUMMY_MODEM_UART) && USE_DUMMY_MODEM_UART == 1
+if (DOWNLINK_DEVICE != p) {
+#endif
   // check if in process of sending data
   if (p->tx_running) { // yes, add to queue
     p->tx_buf[p->tx_insert_idx] = data;
@@ -131,10 +133,25 @@ void uart_put_byte(struct uart_periph *p, long fd __attribute__((unused)), uint8
 
   USART_CR1((uint32_t)p->reg_addr) |= USART_CR1_TXEIE; // Enable TX interrupt
 
+#if defined(USE_DUMMY_MODEM_UART) && USE_DUMMY_MODEM_UART == 1
+} else {
+
+  p->tx_running = true;
+  p->tx_buf[p->tx_insert_idx] = data;
+  p->tx_insert_idx = temp;
+
+}
+#endif
+
+return;
 }
 
 static inline void usart_isr(struct uart_periph *p)
 {
+
+#if defined(USE_DUMMY_MODEM_UART) && USE_DUMMY_MODEM_UART == 1
+if (DOWNLINK_DEVICE != p) {
+#endif
 
   if (((USART_CR1((uint32_t)p->reg_addr) & USART_CR1_TXEIE) != 0) &&
       ((USART_SR((uint32_t)p->reg_addr) & USART_SR_TXE) != 0)) {
@@ -178,6 +195,10 @@ static inline void usart_isr(struct uart_periph *p)
       p->fe_err++;
     }
   }
+#if defined(USE_DUMMY_MODEM_UART) && USE_DUMMY_MODEM_UART == 1
+}
+#endif
+
 }
 
 static inline void usart_enable_irq(uint8_t IRQn)
