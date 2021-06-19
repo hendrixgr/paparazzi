@@ -79,9 +79,12 @@
 #define RFM_SLAVE_IDX SPI_SLAVE4
 #endif
 
-#ifndef RFM_SPI_DEV
-#define RFM_SPI_DEV spi4
+#ifndef OPENLRSNG_SPI_DEV
+#define OPENLRSNG_SPI_DEV spi4
 #endif
+
+PRINT_CONFIG_VAR(OPENLRSNG_SPI_DEV)
+PRINT_CONFIG_VAR(RFM_SLAVE_IDX)
 
 #define AVAILABLE    0
 #define TRANSMIT    1
@@ -443,8 +446,8 @@ uint32_t timeout = 0;
   rfm_trans.output_length = 1;
   rfm_trans.input_length = 0;
   rfm_trans.select = SPISelect;
-  //spi_blocking_transceive(&RFM_SPI_DEV, &rfm_trans);
-  if ( !spi_submit(&(RFM_SPI_DEV), &rfm_trans) ) {
+  //spi_blocking_transceive(&OPENLRSNG_SPI_DEV, &rfm_trans);
+  if ( !spi_submit(&(OPENLRSNG_SPI_DEV), &rfm_trans) ) {
     return false;
   }
   // Wait for transaction to complete
@@ -457,8 +460,8 @@ uint32_t timeout = 0;
   rfm_trans.output_length = 0;
   rfm_trans.input_length = 1;
   rfm_trans.select = SPIUnselect;
-  //spi_blocking_transceive(&RFM_SPI_DEV, &rfm_trans);
-  if ( !spi_submit(&(RFM_SPI_DEV), &rfm_trans) ) {
+  //spi_blocking_transceive(&OPENLRSNG_SPI_DEV, &rfm_trans);
+  if ( !spi_submit(&(OPENLRSNG_SPI_DEV), &rfm_trans) ) {
     return false;
   }
   // Wait for transaction to complete
@@ -482,11 +485,11 @@ uint8_t i = 0;
   rfm->output_length = 1;
   rfm->input_length = 0;
   rfm->select = SPISelect;
-  spi_blocking_transceive(&RFM_SPI_DEV, &rfm_trans);
+  spi_blocking_transceive(&OPENLRSNG_SPI_DEV, &rfm_trans);
   rfm->output_length = 0;
   rfm->input_length = size;
   rfm->select = SPIUnselect;
-  spi_blocking_transceive(&RFM_SPI_DEV, &rfm_trans);
+  spi_blocking_transceive(&OPENLRSNG_SPI_DEV, &rfm_trans);
   rfm->select = SPISelectUnselect;
   for (i = 0; i < size; i++) {
     buffer[i] = rfm_trans.input_buf[i];
@@ -503,8 +506,8 @@ bool spiWriteRegister(uint8_t rfm_reg_address, uint8_t rfm_reg_val)
   rfm_trans.input_length  = 0;
   rfm_trans.output_buf[0] = rfm_reg_address;
   rfm_trans.output_buf[1] = (uint8_t)(rfm_reg_val);
-  //spi_blocking_transceive(&(RFM_SPI_DEV), &rfm_trans);
-  if ( !spi_submit(&(RFM_SPI_DEV), &rfm_trans) ) {
+  //spi_blocking_transceive(&(OPENLRSNG_SPI_DEV), &rfm_trans);
+  if ( !spi_submit(&(OPENLRSNG_SPI_DEV), &rfm_trans) ) {
     return false;
   }
   // Wait for transaction to complete
@@ -797,7 +800,7 @@ uint8_t i = 0;
   rfm_trans.output_length = 1;
   rfm_trans.input_length = 0;
   rfm_trans.select = SPISelect;
-  spi_blocking_transceive(&(RFM_SPI_DEV), &rfm_trans);
+  spi_blocking_transceive(&(OPENLRSNG_SPI_DEV), &rfm_trans);
 
   timeout = msec_of_sys_time_ticks(sys_time.nb_tick) + ((1000/SYS_TIME_FREQUENCY)+1);
   while ((rfm_trans.status == SPITransPending) || (rfm_trans.status == SPITransRunning)) {
@@ -809,7 +812,7 @@ uint8_t i = 0;
   rfm_trans.output_length = 0;
   rfm_trans.input_length = size;
   rfm_trans.select = SPIUnselect;
-  spi_blocking_transceive(&(RFM_SPI_DEV), &rfm_trans);
+  spi_blocking_transceive(&(OPENLRSNG_SPI_DEV), &rfm_trans);
   
   timeout = msec_of_sys_time_ticks(sys_time.nb_tick) + ((1000/SYS_TIME_FREQUENCY)+1);
   while ((rfm_trans.status == SPITransPending) || (rfm_trans.status == SPITransRunning)) {
@@ -1320,7 +1323,7 @@ uint8_t size = 0;
           rfm_trans.output_buf[0] = RFM22B_FIFO;  // MSB 0 => read
           rfm_trans.output_length = 1;
           rfm_trans.input_length = size+1;
-          spi_submit(&(RFM_SPI_DEV), &rfm_trans);
+          spi_submit(&(OPENLRSNG_SPI_DEV), &rfm_trans);
           rfm_status = RFM_STATUS_WAITING_RX_PACKET;
           return;
         case (RFM_STATUS_RX_PACKET_ARRIVED):
