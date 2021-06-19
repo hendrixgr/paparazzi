@@ -59,6 +59,10 @@
 #define STD_SECTION   ".ram0"
 #define FAST_SECTION  ".ram0"
 #define DMA_SECTION   ".ram3"
+#elif defined STM32H7
+#define STD_SECTION   ".ram0"
+#define FAST_SECTION  ".ram0"
+#define DMA_SECTION   ".ram3"
 #else
 #error "section defined only for STM32F1, STM32F4 and STM32F7"
 #endif
