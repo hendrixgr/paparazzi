@@ -1,0 +1,7 @@
+ant_tracker_pan_mode  180 
+psi_servo_pw_span_default  1000 
+theta_servo_pw_span_default  1000 
+psi_servo_center_pw  1500 
+theta_servo_center_pw  1500 
+elevation_trim  0.000000 
+azimuth_trim  0.000000 
