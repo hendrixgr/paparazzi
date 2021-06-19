@@ -1,0 +1,32 @@
+<!DOCTYPE module SYSTEM "module.dtd">
+
+<module name="openlrsng" dir="openlrsng">
+  <doc>
+    <description>OPENLRSNG_SPI_DEV driver (SPI)</description>
+    <configure name="OPENLRSNG_SPI_DEV_SPI_DEV" value="spiX" description="select spi peripheral to use (default spi2)"/>
+    <configure name="OPENLRSNG_SPI_DEV_SLAVE_IDX" value="SPI_SLAVE3" description="SPI slave select index"/>
+  </doc>
+  <dep>
+    <depends>spi_master</depends>
+  </dep>
+  <header>
+    <file name="openlrsng.h"/>
+    <file name="rfm_regs.h"/>
+    <file name="flash_functions.h"/>
+  </header>
+  <init fun="rfm_init()"/>
+  <periodic fun="rfm_periodic()" freq="120" autorun="TRUE"/>
+  <event fun="rfm_event()"/>
+  <makefile target="ap">
+    <configure name="OPENLRSNG_SPI_DEV" default="spi2" case="upper|lower"/>
+    <configure name="OPENLRSNG_SLAVE_IDX" default="spi_slave3" case="upper|lower"/>
+    <define name="USE_$(OPENLRSNG_SPI_DEV_UPPER)" />
+    <define name="USE_$(OPENLRSNG_SLAVE_IDX_UPPER)" />
+    <define name="OPENLRSNG_SPI_DEV" value="$(OPENLRSNG_SPI_DEV_LOWER)" />
+    <define name="OPENLRSNG_SLAVE_IDX" value="$(OPENLRSNG_SLAVE_IDX_UPPER)" />
+    <file name="openlrsng.c" />
+    <file name="flash_functions.c" />
+  </makefile>
+</module>
+
+
