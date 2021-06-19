@@ -1,0 +1,59 @@
+<!DOCTYPE module SYSTEM "module.dtd">
+
+<module name="fixed_wing_cam_v1" dir="fixed_wing_cam_v1">
+  <doc>
+    <description>VIDEO CAMERA DRIVER</description>
+    <define name="CAM_PAN_TILT_FRONT"  value="1" description="camera mounting method, pan then tilt and the camera looks to the front."/>
+    <define name="USE_JOYSTICK_FOR_CAMERA" value="0" description="when a separate joystick is used for controlling the camera "/>
+    <define name="POINT_CAM_YAW_PITCH_NOSE" value="1" description="camera mounting method, pan then tilt and the camera looks to the front."/>
+    <define name="CAM_PAN_RADIO_INPUT_CHANNEL" value="ROLL" description="YOU CAN SELECT A RADIO CHANNEL TO CONTROL PAN."/>
+    <define name="CAM_TILT_RADIO_INPUT_CHANNEL" value="PITCH" description="YOU CAN SELECT A RADIO CHANNEL TO CONTROL TILT."/>
+    <define name="CAM_ZOOM_RADIO_INPUT_CHANNEL" value="-1" description="YOU CAN SELECT A RADIO CHANNEL TO CONTROL ZOOM."/>
+    <define name="CAM_LOCK_RADIO_INPUT_CHANNEL" value="-1" description="YOU CAN SELECT A RADIO CHANNEL TO CONTROL CAM LOCK."/>
+    <define name="CAM_PAN_OUTPUT_COMMAND" value="CAM_PAN" description="SELECT A SERVO TO CONTROL PAN."/>
+    <define name="CAM_TILT_OUTPUT_COMMAND" value="CAM_TILT" description="SELECT A SERVO TO CONTROL TILT."/>
+    <define name="CAM_ZOOM_OUTPUT_COMMAND" value="-1" description="SELECT A SERVO TO CONTROL ZOOM."/>
+
+<!-- PAN, TILT servo travel limits and positions -->
+<!-- positive is to the right, negative is to the left, 0 is straight ahead -->
+    <define name="CAM_PAN_MODE"                  value="360" />
+    <define name="CAM_PAN_POSITION_FOR_FPV"      value="0" />
+    <define name="CAM_PAN_DIRECTION"             value="1" />
+    <define name="CAM_PAN_MAX"                   value="180" /> 
+    <define name="CAM_PAN_NEUTRAL"               value="0" />
+    <define name="CAM_PAN_MIN"                   value="-180" /> 
+    <define name="CAM_PAN0"                      value="0" /> <!-- When camera is retracted in the fuselage -->
+<!-- positive = looking in front, negative = looking back, 0 look straight down  -->
+    <define name="CAM_TILT_POSITION_FOR_FPV"     value="90" />
+    <define name="CAM_TILT_DIRECTION"            value="1" />
+    <define name="CAM_TILT_MAX"                  value="90" /> 
+    <define name="CAM_TILT_NEUTRAL"              value="45" />
+    <define name="CAM_TILT_MIN"                  value="0"/> 
+    <define name="CAM_TILT0"                     value="0" /> <!-- When camera is retracted in the fuselage -->
+  </doc>
+  <settings>
+    <dl_settings>
+      <dl_settings NAME="CAMERA">
+        <dl_setting MAX="1" MIN="0" STEP="1" VAR="wgs84_dms" shortname="WGS84 DMS" />
+        <dl_setting MAX="1" MIN="0" STEP="1" VAR="cam_lock" shortname="CAM_LOCKED" >
+          <strip_button icon="cam_lock.png" name="lock camera" value="1"/>        
+          <strip_button icon="cam_unlock.png" name="unlock camera" value="0"/>
+        </dl_setting>
+        <dl_setting MAX="180" MIN="-180" STEP="1" VAR="cam_pan_c" shortname="PAN" unit="rad" alt_unit="deg" />
+        <dl_setting MAX="90" MIN="-90" STEP="1" VAR="cam_tilt_c" shortname="TILT"  unit="rad" alt_unit="deg" />
+        <dl_setting MAX="6" MIN="0" STEP="1" VAR="cam_mode" shortname="MODE" values="OFF|NADIR|ANGLES|HOME|TARGET|MANUAL|TRACK"/>
+      </dl_settings>
+    </dl_settings>
+  </settings>
+  <header>
+    <file name="fixed_wing_cam_v1.h"/>
+  </header>
+  <init fun="fixed_wing_cam_init()"/>
+  <periodic fun="fixed_wing_cam_periodic()" freq="20."/>
+
+  <makefile>
+    <define name="CAM"/>
+    <file  name="fixed_wing_cam_v1.c"/>
+  </makefile>
+
+</module>
