@@ -90,6 +90,15 @@ static PWMConfig pwmcfg11 = PWM_CONF11_DEF;
 #if PWM_CONF_TIM12
 static PWMConfig pwmcfg12 = PWM_CONF12_DEF;
 #endif
+#if PWM_CONF_TIM15
+static PWMConfig pwmcfg15 = PWM_CONF15_DEF;
+#endif
+#if PWM_CONF_TIM16
+static PWMConfig pwmcfg16 = PWM_CONF16_DEF;
+#endif
+#if PWM_CONF_TIM17
+static PWMConfig pwmcfg17 = PWM_CONF17_DEF;
+#endif
 
 
 void actuators_pwm_arch_init(void)
@@ -182,8 +191,18 @@ void actuators_pwm_arch_init(void)
 #if PWM_CONF_TIM12
   pwmStart(&PWMD12, &pwmcfg12);
 #endif
-}
+#if PWM_CONF_TIM15
+  pwmStart(&PWMD15, &pwmcfg15);
+#endif
+#if PWM_CONF_TIM16
+  pwmStart(&PWMD16, &pwmcfg16);
+#endif
+#if PWM_CONF_TIM17
+  pwmStart(&PWMD17, &pwmcfg17);
+#endif
 
+return;
+}
 
 void actuators_pwm_commit(void)
 {
@@ -238,4 +257,6 @@ void actuators_pwm_commit(void)
 #ifdef PWM_SERVO_16
   pwmEnableChannel(&PWM_SERVO_16_DRIVER, PWM_SERVO_16_CHANNEL, PWM_CMD_TO_US(actuators_pwm_values[PWM_SERVO_16]));
 #endif
+
+return;
 }

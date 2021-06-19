@@ -77,6 +77,15 @@
 #ifndef TIM12_SERVO_HZ
 #define TIM12_SERVO_HZ SERVO_HZ
 #endif
+#ifndef TIM15_SERVO_HZ
+#define TIM15_SERVO_HZ SERVO_HZ
+#endif
+#ifndef TIM16_SERVO_HZ
+#define TIM16_SERVO_HZ SERVO_HZ
+#endif
+#ifndef TIM17_SERVO_HZ
+#define TIM17_SERVO_HZ SERVO_HZ
+#endif
 
 extern int32_t actuators_pwm_values[ACTUATORS_PWM_NB];
 
