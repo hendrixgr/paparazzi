@@ -44,6 +44,9 @@
 #if defined STM32F4 || defined STM32F7
 #define BCKP_SECTION ".ram5"
 #define IN_BCKP_SECTION(var) var __attribute__ ((section(BCKP_SECTION), aligned(8)))
+#elif defined STM32H7
+#define BCKP_SECTION ".ram7"
+#define IN_BCKP_SECTION(var) var __attribute__ ((section(BCKP_SECTION), aligned(8)))
 #else
 #error "No backup ram available"
 #endif
@@ -95,6 +98,10 @@ bool recovering_from_hard_fault;
 #define __PWR_CSR PWR->CSR1
 #define __PWR_CSR_BRE PWR_CSR1_BRE
 #define __PWR_CSR_BRR PWR_CSR1_BRR
+#elif defined STM32H7
+#define __PWR_CSR PWR->CR2
+#define __PWR_CSR_BRE PWR_CR2_BREN
+#define __PWR_CSR_BRR PWR_CR2_BRRDY
 #else
 #error Hard fault recovery not supported
 #endif
@@ -123,7 +130,9 @@ void mcu_arch_init(void)
   halInit();
   chSysInit();
 
-#if USE_HARD_FAULT_RECOVERY
+#if USE_HARD_FAULT_RECOVERY //&& !defined(STM32H7)
+
+#if !defined(STM32H7)
   /* Backup domain SRAM enable, and with it, the regulator */
 #if defined STM32F4  || defined STM32F7
   RCC->AHB1ENR |= RCC_AHB1ENR_BKPSRAMEN;
@@ -147,6 +156,34 @@ void mcu_arch_init(void)
   // *MANDATORY* clear of rcc bits
   RCC->CSR = RCC_CSR_RMVF;
   // end of reset bit probing
+#else
+
+  // FIXME I HOPE THIS IS CORRECT WAY OF DOING THIS
+  // Enable write access to Backup domain
+  PWR->CR1 |= PWR_CR1_DBP;
+  while((PWR->CR1 & PWR_CR1_DBP) == RESET);
+  /* Backup domain SRAM enable, and with it, the regulator */
+  RCC->AHB4ENR |= RCC_AHB4ENR_BKPRAMEN;
+  __PWR_CSR |= __PWR_CSR_BRE;
+  while ((__PWR_CSR & __PWR_CSR_BRR) == 0) ; /* Waits until the regulator is stable */
+  // test if last reset was a 'real' hard fault
+  recovering_from_hard_fault = false;
+  if (!(RCC->CSR & RCC_RSR_SFTRSTF)) {
+    // not coming from soft reset
+    hard_fault = false;
+  } else if ((RCC->CSR & RCC_RSR_SFTRSTF) && !hard_fault) {
+    // this is a soft reset, probably from a debug probe, so let's start in normal mode
+    hard_fault = false;
+  } else {
+    // else real hard fault
+    recovering_from_hard_fault = true;
+    hard_fault = false;
+  }
+  // *MANDATORY* clear of rcc bits
+  RCC->CSR = RCC_RSR_RMVF;
+  // end of reset bit probing
+#endif
+
 #endif /* USE_HARD_FAULT_RECOVERY */
 
 }
