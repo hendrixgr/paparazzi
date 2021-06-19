@@ -75,6 +75,10 @@
 // STM32F4xx | STM32F7xx
 #define ADC_SAMPLE_RATE ADC_SAMPLE_480
 #define ADC_CR2_CFG ADC_CR2_SWSTART
+#elif defined(STM32H7xx_H) 
+// STM32H7xx_H
+#define ADC_SAMPLE_RATE  ADC_SMPR_SMP_810P5
+#define ADC_CR2_CFG ADC_CR2_SWSTART
 #elif defined(__STM32F373xC_H)
 #define ADC_SAMPLE_RATE ADC_SAMPLE_239P5
 #define ADC_CR2_CFG ADC_CR2_SWSTART
@@ -376,17 +380,27 @@ void adc_init(void)
   adcgrpcfg.u.adc.sqr[2] = sqr3;
   adcgrpcfg.u.adc.cr1 = 0;
   adcgrpcfg.u.adc.cr2 = ADC_CR2_CFG;
+
 #elif defined(__STM32F3xx_H)
   //TODO: check if something needs to be done with the other regs (can be found in ~/paparazzi/sw/ext/chibios/os/hal/ports/STM32/LLD/ADCv3)
 #warning ADCs not tested with stm32f30
   // cfgr
   // tr1
-
   adcgrpcfg.smpr[0] = smpr1; // is this even correct?
   adcgrpcfg.smpr[1] = smpr2;
   adcgrpcfg.sqr[0]  = sqr1;
   adcgrpcfg.sqr[1]  = sqr2;
   adcgrpcfg.sqr[2]  = sqr3;
+
+#elif defined(STM32H7xx_H)
+  adcgrpcfg.cfgr = 0;//ADC_CR2_CFG;
+  adcgrpcfg.cfgr2 = 0;
+  adcgrpcfg.smpr[0] = smpr1;
+  adcgrpcfg.smpr[1] = smpr2;
+  adcgrpcfg.sqr[0] = sqr1;
+  adcgrpcfg.sqr[1] = sqr2;
+  adcgrpcfg.sqr[2] = sqr3;
+
 #else
   adcgrpcfg.cr2 = ADC_CR2_CFG;
   adcgrpcfg.cr1 = 0;
