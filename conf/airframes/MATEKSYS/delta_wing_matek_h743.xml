@@ -60,8 +60,8 @@
     </module>
 
     <module name="openlrsng">
-      <configure name="OPENLRSNG_SPI_DEV" value="spi2" />
-      <configure name="OPENLRSNG_SLAVE_IDX" value="SPI_SLAVE3" />
+      <configure name="OPENLRSNG_SPI_DEV" value="spi4" />
+      <configure name="OPENLRSNG_SLAVE_IDX" value="SPI_SLAVE4" />
       <configure  name="USE_DUMMY_MODEM_UART" value="1"/>
     </module>
 
