@@ -66,7 +66,7 @@
 #define OTG_FS_DP                      12U
 #define SWDIO                          13U
 #define SWCLK                          14U
-#define PA15                           15U
+#define BEEPER                         15U
 
 #define S5                             0U
 #define S6                             1U
@@ -76,8 +76,8 @@
 #define SPI3_MOSI                      5U
 #define I2C1_SCL                       6U
 #define I2C1_SDA                       7U
-#define UART5_RX                       8U
-#define ALARM                          9U
+#define UART4_RX                       8U
+#define UART4_TX                       9U
 #define I2C2_SCL                       10U
 #define I2C2_SDA                       11U
 #define OSD_CS                         12U
@@ -102,9 +102,10 @@
 #define OSC32_IN                       14U
 #define OSC32_OUT                      15U
 
-#define UART4_RX                       0U
-#define UART4_TX                       1U
+#define PD00                           0U
+#define PD01                           1U
 #define SDMMC1_CMD                     2U
+#define UART5_RX                       2U
 #define PD03                           3U
 #define PD04                           4U
 #define UART2_TX                       5U
@@ -414,10 +415,11 @@ const timerHardware_t timerHardware[] = {
 */
 #define LINE_RFM_EXTI                  PAL_LINE(GPIOB, 9U)
 
-#define LINE_S1                        PAL_LINE(GPIOB, 0U)
-#define LINE_S2                        PAL_LINE(GPIOB, 1U)
+
 #define LINE_S3                        PAL_LINE(GPIOA, 0U)
 #define LINE_S4                        PAL_LINE(GPIOA, 1U)
+#define LINE_S5                        PAL_LINE(GPIOA, 2U)
+#define LINE_S6                        PAL_LINE(GPIOA, 3U)
 #define LINE_VBAT2                     PAL_LINE(GPIOA, 4U)
 #define LINE_SPI1_SCK                  PAL_LINE(GPIOA, 5U)
 #define LINE_SPI1_MISO                 PAL_LINE(GPIOA, 6U)
@@ -429,16 +431,18 @@ const timerHardware_t timerHardware[] = {
 #define LINE_OTG_FS_DP                 PAL_LINE(GPIOA, 12U)
 #define LINE_SWDIO                     PAL_LINE(GPIOA, 13U)
 #define LINE_SWCLK                     PAL_LINE(GPIOA, 14U)
+#define LINE_BEEPER                    PAL_LINE(GPIOA, 15U)
 
-#define LINE_S5                        PAL_LINE(GPIOA, 2U)
-#define LINE_S6                        PAL_LINE(GPIOA, 3U)
+#define LINE_S1                        PAL_LINE(GPIOB, 0U)
+#define LINE_S2                        PAL_LINE(GPIOB, 1U)
+#define LINE_GYRO_1_EXTI_PIN           PAL_LINE(GPIOB, 2U)
 #define LINE_SPI3_SCK                  PAL_LINE(GPIOB, 3U)
 #define LINE_SPI3_MISO                 PAL_LINE(GPIOB, 4U)
 #define LINE_SPI3_MOSI                 PAL_LINE(GPIOB, 5U)
 #define LINE_I2C1_SCL                  PAL_LINE(GPIOB, 6U)
 #define LINE_I2C1_SDA                  PAL_LINE(GPIOB, 7U)
-#define LINE_UART5_RX                  PAL_LINE(GPIOB, 8U)
-#define LINE_ALARM                     PAL_LINE(GPIOB, 9U)
+#define LINE_UART4_RX                  PAL_LINE(GPIOB, 8U)
+#define LINE_UART4_TX                  PAL_LINE(GPIOB, 9U)
 #define LINE_I2C2_SCL                  PAL_LINE(GPIOB, 10U)
 #define LINE_I2C2_SDA                  PAL_LINE(GPIOB, 11U)
 #define LINE_OSD_CS                    PAL_LINE(GPIOB, 12U)
@@ -453,7 +457,9 @@ const timerHardware_t timerHardware[] = {
 #define LINE_IMU1_CS                   PAL_LINE(GPIOC, 4U)
 #define LINE_CURR2                     PAL_LINE(GPIOC, 5U)
 #define LINE_RC2                       PAL_LINE(GPIOC, 6U)
+#define LINE_UART6_TX                  PAL_LINE(GPIOC, 6U)
 #define LINE_RC1                       PAL_LINE(GPIOC, 7U)
+#define LINE_UART6_RX                  PAL_LINE(GPIOC, 7U)
 #define LINE_SDMMC1_D0                 PAL_LINE(GPIOC, 8U)
 #define LINE_SDMMC1_D1                 PAL_LINE(GPIOC, 9U)
 #define LINE_SDMMC1_D2                 PAL_LINE(GPIOC, 10U)
@@ -462,9 +468,10 @@ const timerHardware_t timerHardware[] = {
 #define LINE_OSC32_IN                  PAL_LINE(GPIOC, 14U)
 #define LINE_OSC32_OUT                 PAL_LINE(GPIOC, 15U)
 
-#define LINE_UART4_RX                  PAL_LINE(GPIOD, 0U)
-#define LINE_UART4_TX                  PAL_LINE(GPIOD, 1U)
+//#define LINE_UART4_RX                  PAL_LINE(GPIOD, 0U)
+//#define LINE_UART4_TX                  PAL_LINE(GPIOD, 1U)
 #define LINE_SDMMC1_CMD                PAL_LINE(GPIOD, 2U)
+#define LINE_UART5_RX                  PAL_LINE(GPIOD, 2U)
 #define LINE_UART2_TX                  PAL_LINE(GPIOD, 5U)
 #define LINE_UART2_RX                  PAL_LINE(GPIOD, 6U)
 #define LINE_IMU2_CS                   PAL_LINE(GPIOD, 7U)
@@ -551,19 +558,19 @@ const timerHardware_t timerHardware[] = {
 #define S4_TIM_CH    2
 #define S4_TIM_AF    2
 
-#define AF_S5        3U
-#define AF_LINE_S5   3U
+#define AF_S5        2U
+#define AF_LINE_S5   2U
 #define S5_TIM       5
 #define S5_TIM_FN    CH
 #define S5_TIM_CH    3
-#define S5_TIM_AF    3
+#define S5_TIM_AF    2
 
-#define AF_S6        3U
-#define AF_LINE_S6   3U
+#define AF_S6        2U
+#define AF_LINE_S6   2U
 #define S6_TIM       5
 #define S6_TIM_FN    CH
 #define S6_TIM_CH    4
-#define S6_TIM_AF    3
+#define S6_TIM_AF    2
 
 #define AF_S7        2U
 #define AF_LINE_S7   2U
@@ -607,6 +614,13 @@ const timerHardware_t timerHardware[] = {
 #define S12_TIM_CH   2
 #define S12_TIM_AF   4
 
+#define AF_S12       4U
+#define AF_LINE_S12  4U
+#define S12_TIM      15
+#define S12_TIM_FN   CH
+#define S12_TIM_CH   2
+#define S12_TIM_AF   4
+
 //***********************   SPI   ***********************//
 #define AF_SPI1_SCK          5U
 #define AF_LINE_SPI1_SCK     5U
@@ -626,8 +640,8 @@ const timerHardware_t timerHardware[] = {
 #define AF_LINE_SPI3_SCK     6U
 #define AF_SPI3_MISO         6U
 #define AF_LINE_SPI3_MISO    6U
-#define AF_SPI3_MOSI         6U
-#define AF_LINE_SPI3_MOSI    6U
+#define AF_SPI3_MOSI         7U
+#define AF_LINE_SPI3_MOSI    7U
 
 #define AF_SPI4_CLK          5U
 #define AF_LINE_SPI4_CLK     5U
@@ -660,14 +674,14 @@ const timerHardware_t timerHardware[] = {
 #define AF_UART5_RX          7U
 #define AF_LINE_UART5_RX     7U
 
-#define AF_UART7_RX          8U
-#define AF_LINE_UART7_RX     8U
-#define AF_UART7_TX          8U
-#define AF_LINE_UART7_TX     8U
-#define AF_UART7_RTS         8U
-#define AF_LINE_UART7_RTS    8U
-#define AF_UART7_CTS         8U
-#define AF_LINE_UART7_CTS    8U
+#define AF_UART7_RX          7U
+#define AF_LINE_UART7_RX     7U
+#define AF_UART7_TX          7U
+#define AF_LINE_UART7_TX     7U
+#define AF_UART7_RTS         7U
+#define AF_LINE_UART7_RTS    7U
+#define AF_UART7_CTS         7U
+#define AF_LINE_UART7_CTS    7U
 
 #define AF_UART8_RX          8U
 #define AF_LINE_UART8_RX     8U
@@ -771,13 +785,13 @@ const timerHardware_t timerHardware[] = {
 #define LED_WS2812_TIM_CH     1
 #define LED_WS2812_TIM_AF     1
  
-#define AF_ALARM              3U
-#define AF_LINE_ALARM         3U
+#define AF_BEEPER             1U
+#define AF_LINE_BEEPER        1U
 
-#define ALARM_TIM             11
-#define ALARM_TIM_FN          CH
-#define ALARM_TIM_CH          1
-#define ALARM_TIM_AF          3
+#define BEEPER_TIM            2
+#define BEEPER_TIM_FN         CH
+#define BEEPER_TIM_CH         1
+#define BEEPER_TIM_AF         1
 
 
 /*
@@ -817,7 +831,7 @@ const timerHardware_t timerHardware[] = {
     PIN_MODE_ALTERNATE(OTG_FS_DP) | \
     PIN_MODE_ALTERNATE(SWDIO) | \
     PIN_MODE_ALTERNATE(SWCLK) | \
-    PIN_MODE_INPUT(PA15))
+    PIN_MODE_ALTERNATE(BEEPER))
 
 #define VAL_GPIOA_OTYPER                (PIN_OTYPE_PUSHPULL(S1) | \
     PIN_OTYPE_PUSHPULL(S2) | \
@@ -834,7 +848,7 @@ const timerHardware_t timerHardware[] = {
     PIN_OTYPE_PUSHPULL(OTG_FS_DP) | \
     PIN_OTYPE_PUSHPULL(SWDIO) | \
     PIN_OTYPE_PUSHPULL(SWCLK) | \
-    PIN_OTYPE_PUSHPULL(PA15))
+    PIN_OTYPE_PUSHPULL(BEEPER))
 
 #define VAL_GPIOA_OSPEEDR               (PIN_OSPEED_SPEED_HIGH(S1) | \
     PIN_OSPEED_SPEED_HIGH(S2) | \
@@ -851,7 +865,7 @@ const timerHardware_t timerHardware[] = {
     PIN_OSPEED_SPEED_HIGH(OTG_FS_DP) | \
     PIN_OSPEED_SPEED_HIGH(SWDIO) | \
     PIN_OSPEED_SPEED_HIGH(SWCLK) | \
-    PIN_OSPEED_SPEED_VERYLOW(PA15))
+    PIN_OSPEED_SPEED_HIGH(BEEPER))
 
 #define VAL_GPIOA_PUPDR                 (PIN_PUPDR_FLOATING(S1) | \
     PIN_PUPDR_FLOATING(S2) | \
@@ -868,7 +882,7 @@ const timerHardware_t timerHardware[] = {
     PIN_PUPDR_FLOATING(OTG_FS_DP) | \
     PIN_PUPDR_FLOATING(SWDIO) | \
     PIN_PUPDR_FLOATING(SWCLK) | \
-    PIN_PUPDR_PULLDOWN(PA15))
+    PIN_PUPDR_PULLDOWN(BEEPER))
 
 #define VAL_GPIOA_ODR                   (PIN_ODR_LEVEL_LOW(S1) | \
     PIN_ODR_LEVEL_LOW(S2) | \
@@ -885,7 +899,7 @@ const timerHardware_t timerHardware[] = {
     PIN_ODR_LEVEL_HIGH(OTG_FS_DP) | \
     PIN_ODR_LEVEL_HIGH(SWDIO) | \
     PIN_ODR_LEVEL_HIGH(SWCLK) | \
-    PIN_ODR_LEVEL_LOW(PA15))
+    PIN_ODR_LEVEL_LOW(BEEPER))
 
 #define VAL_GPIOA_AFRL      (PIN_AFIO_AF(S1, 1) | \
                              PIN_AFIO_AF(S2, 1) | \
@@ -903,7 +917,7 @@ const timerHardware_t timerHardware[] = {
                              PIN_AFIO_AF(OTG_FS_DP, 10) | \
                              PIN_AFIO_AF(SWDIO, 0) | \
                              PIN_AFIO_AF(SWCLK, 0) | \
-                             PIN_AFIO_AF(PA15, 0))
+                             PIN_AFIO_AF(BEEPER, 1))
 
 #define VAL_GPIOB_MODER                 (PIN_MODE_ALTERNATE(S5) | \
     PIN_MODE_ALTERNATE(S6) | \
@@ -913,8 +927,8 @@ const timerHardware_t timerHardware[] = {
     PIN_MODE_ALTERNATE(SPI3_MOSI) | \
     PIN_MODE_ALTERNATE(I2C1_SCL) | \
     PIN_MODE_ALTERNATE(I2C1_SDA) | \
-    PIN_MODE_ALTERNATE(UART5_RX) | \
-    PIN_MODE_ALTERNATE(ALARM) | \
+    PIN_MODE_ALTERNATE(UART4_RX) | \
+    PIN_MODE_ALTERNATE(UART4_TX) | \
     PIN_MODE_ALTERNATE(I2C2_SCL) | \
     PIN_MODE_ALTERNATE(I2C2_SDA) | \
     PIN_MODE_OUTPUT(OSD_CS) | \
@@ -930,8 +944,8 @@ const timerHardware_t timerHardware[] = {
     PIN_OTYPE_PUSHPULL(SPI3_MOSI) | \
     PIN_OTYPE_OPENDRAIN(I2C1_SCL) | \
     PIN_OTYPE_OPENDRAIN(I2C1_SDA) | \
-    PIN_OTYPE_PUSHPULL(UART5_RX) | \
-    PIN_OTYPE_PUSHPULL(ALARM) | \
+    PIN_OTYPE_PUSHPULL(UART4_RX) | \
+    PIN_OTYPE_PUSHPULL(UART4_TX) | \
     PIN_OTYPE_OPENDRAIN(I2C2_SCL) | \
     PIN_OTYPE_OPENDRAIN(I2C2_SDA) | \
     PIN_OTYPE_PUSHPULL(OSD_CS) | \
@@ -947,8 +961,8 @@ const timerHardware_t timerHardware[] = {
     PIN_OSPEED_SPEED_HIGH(SPI3_MOSI) | \
     PIN_OSPEED_SPEED_HIGH(I2C1_SCL) | \
     PIN_OSPEED_SPEED_HIGH(I2C1_SDA) | \
-    PIN_OSPEED_SPEED_HIGH(UART5_RX) | \
-    PIN_OSPEED_SPEED_HIGH(ALARM) | \
+    PIN_OSPEED_SPEED_HIGH(UART4_RX) | \
+    PIN_OSPEED_SPEED_HIGH(UART4_TX) | \
     PIN_OSPEED_SPEED_HIGH(I2C2_SCL) | \
     PIN_OSPEED_SPEED_HIGH(I2C2_SDA) | \
     PIN_OSPEED_SPEED_HIGH(OSD_CS) | \
@@ -964,8 +978,8 @@ const timerHardware_t timerHardware[] = {
     PIN_PUPDR_FLOATING(SPI3_MOSI) | \
     PIN_PUPDR_PULLUP(I2C1_SCL) | \
     PIN_PUPDR_PULLUP(I2C1_SDA) | \
-    PIN_PUPDR_FLOATING(UART5_RX) | \
-    PIN_PUPDR_FLOATING(ALARM) | \
+    PIN_PUPDR_FLOATING(UART4_RX) | \
+    PIN_PUPDR_FLOATING(UART4_TX) | \
     PIN_PUPDR_PULLUP(I2C2_SCL) | \
     PIN_PUPDR_PULLUP(I2C2_SDA) | \
     PIN_PUPDR_FLOATING(OSD_CS) | \
@@ -981,8 +995,8 @@ const timerHardware_t timerHardware[] = {
     PIN_ODR_LEVEL_HIGH(SPI3_MOSI) | \
     PIN_ODR_LEVEL_HIGH(I2C1_SCL) | \
     PIN_ODR_LEVEL_HIGH(I2C1_SDA) | \
-    PIN_ODR_LEVEL_HIGH(UART5_RX) | \
-    PIN_ODR_LEVEL_LOW(ALARM) | \
+    PIN_ODR_LEVEL_HIGH(UART4_RX) | \
+    PIN_ODR_LEVEL_HIGH(UART4_TX) | \
     PIN_ODR_LEVEL_HIGH(I2C2_SCL) | \
     PIN_ODR_LEVEL_HIGH(I2C2_SDA) | \
     PIN_ODR_LEVEL_HIGH(OSD_CS) | \
@@ -999,8 +1013,8 @@ const timerHardware_t timerHardware[] = {
                              PIN_AFIO_AF(I2C1_SCL, 4) | \
                              PIN_AFIO_AF(I2C1_SDA, 4))
 
-#define VAL_GPIOB_AFRH      (PIN_AFIO_AF(UART5_RX, 7) | \
-                             PIN_AFIO_AF(ALARM, 3) | \
+#define VAL_GPIOB_AFRH      (PIN_AFIO_AF(UART4_RX, 8) | \
+                             PIN_AFIO_AF(UART4_TX, 8) | \
                              PIN_AFIO_AF(I2C2_SCL, 4) | \
                              PIN_AFIO_AF(I2C2_SDA, 4) | \
                              PIN_AFIO_AF(OSD_CS, 0) | \
