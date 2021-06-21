@@ -51,10 +51,10 @@
 /*
  * IO pins assignments.
  */
-#define S1                             0U
-#define S2                             1U
-#define S3                             2U
-#define S4                             3U
+#define S3                             0U
+#define S4                             1U
+#define S5                             2U
+#define S6                             3U
 #define PA04                           4U
 #define SPI1_SCK                       5U
 #define SPI1_MISO                      6U
@@ -68,8 +68,8 @@
 #define SWCLK                          14U
 #define BEEPER                         15U
 
-#define S5                             0U
-#define S6                             1U
+#define S1                             0U
+#define S2                             1U
 #define PB02                           2U
 #define SPI3_SCK                       3U
 #define SPI3_MISO                      4U
@@ -816,10 +816,10 @@ const timerHardware_t timerHardware[] = {
 #define PIN_PUPDR_PULLDOWN(n)       (2U << ((n) * 2U))
 #define PIN_AFIO_AF(n, v)           ((v) << (((n) % 8U) * 4U))
 
-#define VAL_GPIOA_MODER                 (PIN_MODE_ALTERNATE(S1) | \
-    PIN_MODE_ALTERNATE(S2) | \
-    PIN_MODE_ALTERNATE(S3) | \
+#define VAL_GPIOA_MODER                 (PIN_MODE_ALTERNATE(S3) | \
     PIN_MODE_ALTERNATE(S4) | \
+    PIN_MODE_ALTERNATE(S5) | \
+    PIN_MODE_ALTERNATE(S6) | \
     PIN_MODE_INPUT(PA04) | \
     PIN_MODE_ALTERNATE(SPI1_SCK) | \
     PIN_MODE_ALTERNATE(SPI1_MISO) | \
@@ -833,10 +833,10 @@ const timerHardware_t timerHardware[] = {
     PIN_MODE_ALTERNATE(SWCLK) | \
     PIN_MODE_ALTERNATE(BEEPER))
 
-#define VAL_GPIOA_OTYPER                (PIN_OTYPE_PUSHPULL(S1) | \
-    PIN_OTYPE_PUSHPULL(S2) | \
-    PIN_OTYPE_PUSHPULL(S3) | \
+#define VAL_GPIOA_OTYPER                (PIN_OTYPE_PUSHPULL(S3) | \
     PIN_OTYPE_PUSHPULL(S4) | \
+    PIN_OTYPE_PUSHPULL(S5) | \
+    PIN_OTYPE_PUSHPULL(S6) | \
     PIN_OTYPE_PUSHPULL(PA04) | \
     PIN_OTYPE_PUSHPULL(SPI1_SCK) | \
     PIN_OTYPE_PUSHPULL(SPI1_MISO) | \
@@ -850,10 +850,10 @@ const timerHardware_t timerHardware[] = {
     PIN_OTYPE_PUSHPULL(SWCLK) | \
     PIN_OTYPE_PUSHPULL(BEEPER))
 
-#define VAL_GPIOA_OSPEEDR               (PIN_OSPEED_SPEED_HIGH(S1) | \
-    PIN_OSPEED_SPEED_HIGH(S2) | \
-    PIN_OSPEED_SPEED_HIGH(S3) | \
+#define VAL_GPIOA_OSPEEDR               (PIN_OSPEED_SPEED_HIGH(S3) | \
     PIN_OSPEED_SPEED_HIGH(S4) | \
+    PIN_OSPEED_SPEED_HIGH(S5) | \
+    PIN_OSPEED_SPEED_HIGH(S6) | \
     PIN_OSPEED_SPEED_VERYLOW(PA04) | \
     PIN_OSPEED_SPEED_HIGH(SPI1_SCK) | \
     PIN_OSPEED_SPEED_HIGH(SPI1_MISO) | \
@@ -867,10 +867,10 @@ const timerHardware_t timerHardware[] = {
     PIN_OSPEED_SPEED_HIGH(SWCLK) | \
     PIN_OSPEED_SPEED_HIGH(BEEPER))
 
-#define VAL_GPIOA_PUPDR                 (PIN_PUPDR_FLOATING(S1) | \
-    PIN_PUPDR_FLOATING(S2) | \
-    PIN_PUPDR_FLOATING(S3) | \
+#define VAL_GPIOA_PUPDR                 (PIN_PUPDR_FLOATING(S3) | \
     PIN_PUPDR_FLOATING(S4) | \
+    PIN_PUPDR_FLOATING(S5) | \
+    PIN_PUPDR_FLOATING(S6) | \
     PIN_PUPDR_PULLDOWN(PA04) | \
     PIN_PUPDR_FLOATING(SPI1_SCK) | \
     PIN_PUPDR_FLOATING(SPI1_MISO) | \
@@ -884,10 +884,10 @@ const timerHardware_t timerHardware[] = {
     PIN_PUPDR_FLOATING(SWCLK) | \
     PIN_PUPDR_PULLDOWN(BEEPER))
 
-#define VAL_GPIOA_ODR                   (PIN_ODR_LEVEL_LOW(S1) | \
-    PIN_ODR_LEVEL_LOW(S2) | \
-    PIN_ODR_LEVEL_LOW(S3) | \
+#define VAL_GPIOA_ODR                   (PIN_ODR_LEVEL_LOW(S3) | \
     PIN_ODR_LEVEL_LOW(S4) | \
+    PIN_ODR_LEVEL_LOW(S5) | \
+    PIN_ODR_LEVEL_LOW(S6) | \
     PIN_ODR_LEVEL_LOW(PA04) | \
     PIN_ODR_LEVEL_HIGH(SPI1_SCK) | \
     PIN_ODR_LEVEL_HIGH(SPI1_MISO) | \
@@ -901,10 +901,10 @@ const timerHardware_t timerHardware[] = {
     PIN_ODR_LEVEL_HIGH(SWCLK) | \
     PIN_ODR_LEVEL_LOW(BEEPER))
 
-#define VAL_GPIOA_AFRL      (PIN_AFIO_AF(S1, 1) | \
-                             PIN_AFIO_AF(S2, 1) | \
-                             PIN_AFIO_AF(S3, 2) | \
+#define VAL_GPIOA_AFRL      (PIN_AFIO_AF(S3, 2) | \
                              PIN_AFIO_AF(S4, 2) | \
+                             PIN_AFIO_AF(S5, 2) | \
+                             PIN_AFIO_AF(S6, 2) | \
                              PIN_AFIO_AF(PA04, 0) | \
                              PIN_AFIO_AF(SPI1_SCK, 5) | \
                              PIN_AFIO_AF(SPI1_MISO, 5) | \
@@ -919,8 +919,8 @@ const timerHardware_t timerHardware[] = {
                              PIN_AFIO_AF(SWCLK, 0) | \
                              PIN_AFIO_AF(BEEPER, 1))
 
-#define VAL_GPIOB_MODER                 (PIN_MODE_ALTERNATE(S5) | \
-    PIN_MODE_ALTERNATE(S6) | \
+#define VAL_GPIOB_MODER                 (PIN_MODE_ALTERNATE(S1) | \
+    PIN_MODE_ALTERNATE(S2) | \
     PIN_MODE_INPUT(PB02) | \
     PIN_MODE_ALTERNATE(SPI3_SCK) | \
     PIN_MODE_ALTERNATE(SPI3_MISO) | \
@@ -936,8 +936,8 @@ const timerHardware_t timerHardware[] = {
     PIN_MODE_ALTERNATE(SPI2_MISO) | \
     PIN_MODE_ALTERNATE(SPI2_MOSI))
 
-#define VAL_GPIOB_OTYPER                (PIN_OTYPE_PUSHPULL(S5) | \
-    PIN_OTYPE_PUSHPULL(S6) | \
+#define VAL_GPIOB_OTYPER                (PIN_OTYPE_PUSHPULL(S1) | \
+    PIN_OTYPE_PUSHPULL(S2) | \
     PIN_OTYPE_PUSHPULL(PB02) | \
     PIN_OTYPE_PUSHPULL(SPI3_SCK) | \
     PIN_OTYPE_PUSHPULL(SPI3_MISO) | \
@@ -953,8 +953,8 @@ const timerHardware_t timerHardware[] = {
     PIN_OTYPE_PUSHPULL(SPI2_MISO) | \
     PIN_OTYPE_PUSHPULL(SPI2_MOSI))
 
-#define VAL_GPIOB_OSPEEDR               (PIN_OSPEED_SPEED_HIGH(S5) | \
-    PIN_OSPEED_SPEED_HIGH(S6) | \
+#define VAL_GPIOB_OSPEEDR               (PIN_OSPEED_SPEED_HIGH(S1) | \
+    PIN_OSPEED_SPEED_HIGH(S2) | \
     PIN_OSPEED_SPEED_VERYLOW(PB02) | \
     PIN_OSPEED_SPEED_HIGH(SPI3_SCK) | \
     PIN_OSPEED_SPEED_HIGH(SPI3_MISO) | \
@@ -970,8 +970,8 @@ const timerHardware_t timerHardware[] = {
     PIN_OSPEED_SPEED_HIGH(SPI2_MISO) | \
     PIN_OSPEED_SPEED_HIGH(SPI2_MOSI))
 
-#define VAL_GPIOB_PUPDR                 (PIN_PUPDR_FLOATING(S5) | \
-    PIN_PUPDR_FLOATING(S6) | \
+#define VAL_GPIOB_PUPDR                 (PIN_PUPDR_FLOATING(S1) | \
+    PIN_PUPDR_FLOATING(S2) | \
     PIN_PUPDR_PULLDOWN(PB02) | \
     PIN_PUPDR_FLOATING(SPI3_SCK) | \
     PIN_PUPDR_FLOATING(SPI3_MISO) | \
@@ -987,8 +987,8 @@ const timerHardware_t timerHardware[] = {
     PIN_PUPDR_FLOATING(SPI2_MISO) | \
     PIN_PUPDR_FLOATING(SPI2_MOSI))
 
-#define VAL_GPIOB_ODR                   (PIN_ODR_LEVEL_LOW(S5) | \
-    PIN_ODR_LEVEL_LOW(S6) | \
+#define VAL_GPIOB_ODR                   (PIN_ODR_LEVEL_LOW(S1) | \
+    PIN_ODR_LEVEL_LOW(S2) | \
     PIN_ODR_LEVEL_LOW(PB02) | \
     PIN_ODR_LEVEL_HIGH(SPI3_SCK) | \
     PIN_ODR_LEVEL_HIGH(SPI3_MISO) | \
@@ -1004,8 +1004,8 @@ const timerHardware_t timerHardware[] = {
     PIN_ODR_LEVEL_HIGH(SPI2_MISO) | \
     PIN_ODR_LEVEL_HIGH(SPI2_MOSI))
 
-#define VAL_GPIOB_AFRL      (PIN_AFIO_AF(S5, 3) | \
-                             PIN_AFIO_AF(S6, 3) | \
+#define VAL_GPIOB_AFRL      (PIN_AFIO_AF(S1, 2) | \
+                             PIN_AFIO_AF(S2, 2) | \
                              PIN_AFIO_AF(PB02, 0) | \
                              PIN_AFIO_AF(SPI3_SCK, 6) | \
                              PIN_AFIO_AF(SPI3_MISO, 6) | \
@@ -1318,8 +1318,8 @@ const timerHardware_t timerHardware[] = {
                              PIN_AFIO_AF(PE02, 0) | \
                              PIN_AFIO_AF(PE03, 0) | \
                              PIN_AFIO_AF(PE04, 0) | \
-                             PIN_AFIO_AF(S11, 3) | \
-                             PIN_AFIO_AF(S12, 3) | \
+                             PIN_AFIO_AF(S11, 4) | \
+                             PIN_AFIO_AF(S12, 4) | \
                              PIN_AFIO_AF(UART7_RX, 8))
 
 #define VAL_GPIOE_AFRH      (PIN_AFIO_AF(UART7_TX, 8) | \
