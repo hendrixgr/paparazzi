@@ -116,8 +116,8 @@
 #define SPI1_MOSI                      7U
 #define UART3_TX                       8U
 #define UART3_RX                       9U
-#define LED1                           10U
-#define LED2                           11U
+#define V_PWR_SWITCH                   10U
+#define CAMERA_SWITCH                  11U
 #define S7                             12U
 #define S8                             13U
 #define S9                             14U
@@ -126,8 +126,8 @@
 #define UART8_RX                       0U
 #define UART8_TX                       1U
 #define PE02                           2U
-#define PE03                           3U
-#define PE04                           4U
+#define LED1                           3U
+#define LED2                           4U
 #define S11                            5U
 #define S12                            6U
 #define UART7_RX                       7U
@@ -453,12 +453,12 @@ const timerHardware_t timerHardware[] = {
 #define LINE_SPI2_MISO                 PAL_LINE(GPIOB, 14U)
 #define LINE_SPI2_MOSI                 PAL_LINE(GPIOB, 15U)
 
-#define LINE_AIRSPEED                  PAL_LINE(GPIOC, 0U)
-#define LINE_RSSI                      PAL_LINE(GPIOC, 1U)
-#define LINE_VBAT_MEAS                 PAL_LINE(GPIOC, 2U)
-#define LINE_CURRENT_MEAS              PAL_LINE(GPIOC, 3U)
-#define LINE_IMU1_CS                   PAL_LINE(GPIOC, 4U)
-#define LINE_CURR2                     PAL_LINE(GPIOC, 5U)
+#define LINE_VBAT_MEAS                 PAL_LINE(GPIOC, 0U)
+#define LINE_CURRENT_MEAS              PAL_LINE(GPIOC, 1U)
+//#define LINE_VBAT_MEAS                 PAL_LINE(GPIOC, 2U)
+//#define LINE_CURRENT_MEAS              PAL_LINE(GPIOC, 3U)
+#define LINE_AIRSPEED                  PAL_LINE(GPIOC, 4U)
+#define LINE_RSSI                      PAL_LINE(GPIOC, 5U)
 #define LINE_RC2                       PAL_LINE(GPIOC, 6U)
 #define LINE_UART6_TX                  PAL_LINE(GPIOC, 6U)
 #define LINE_RC1                       PAL_LINE(GPIOC, 7U)
@@ -482,8 +482,8 @@ const timerHardware_t timerHardware[] = {
 #define LINE_SPI1_MOSI                 PAL_LINE(GPIOD, 7U)
 #define LINE_UART3_TX                  PAL_LINE(GPIOD, 8U)
 #define LINE_UART3_RX                  PAL_LINE(GPIOD, 9U)
-#define LINE_LED1                      PAL_LINE(GPIOD, 10U)
-#define LINE_LED2                      PAL_LINE(GPIOD, 11U)
+#define LINE_V_PWR_SWITCH              PAL_LINE(GPIOD, 10U)
+#define LINE_CAMERA_SWITCH             PAL_LINE(GPIOD, 11U)
 #define LINE_S7                        PAL_LINE(GPIOD, 12U)
 #define LINE_S8                        PAL_LINE(GPIOD, 13U)
 #define LINE_S9                        PAL_LINE(GPIOD, 14U)
@@ -491,6 +491,8 @@ const timerHardware_t timerHardware[] = {
 
 #define LINE_UART8_RX                  PAL_LINE(GPIOE, 0U)
 #define LINE_UART8_TX                  PAL_LINE(GPIOE, 1U)
+#define LINE_LED1                      PAL_LINE(GPIOE, 3U)
+#define LINE_LED2                      PAL_LINE(GPIOE, 4U)
 #define LINE_S11                       PAL_LINE(GPIOE, 5U)
 #define LINE_S12                       PAL_LINE(GPIOE, 6U)
 #define LINE_UART7_RX                  PAL_LINE(GPIOE, 7U)
@@ -1236,8 +1238,8 @@ const timerHardware_t timerHardware[] = {
 #define VAL_GPIOE_MODER                 (PIN_MODE_ALTERNATE(UART8_RX) | \
     PIN_MODE_ALTERNATE(UART8_TX) | \
     PIN_MODE_INPUT(PE02) | \
-    PIN_MODE_INPUT(PE03) | \
-    PIN_MODE_INPUT(PE04) | \
+    PIN_MODE_INPUT(LED1) | \
+    PIN_MODE_INPUT(LED2) | \
     PIN_MODE_ALTERNATE(S11) | \
     PIN_MODE_ALTERNATE(S12) | \
     PIN_MODE_ALTERNATE(UART7_RX) | \
@@ -1253,8 +1255,8 @@ const timerHardware_t timerHardware[] = {
 #define VAL_GPIOE_OTYPER                (PIN_OTYPE_PUSHPULL(UART8_RX) | \
     PIN_OTYPE_PUSHPULL(UART8_TX) | \
     PIN_OTYPE_PUSHPULL(PE02) | \
-    PIN_OTYPE_PUSHPULL(PE03) | \
-    PIN_OTYPE_PUSHPULL(PE04) | \
+    PIN_OTYPE_PUSHPULL(LED1) | \
+    PIN_OTYPE_PUSHPULL(LED2) | \
     PIN_OTYPE_PUSHPULL(S11) | \
     PIN_OTYPE_PUSHPULL(S12) | \
     PIN_OTYPE_PUSHPULL(UART7_RX) | \
@@ -1270,8 +1272,8 @@ const timerHardware_t timerHardware[] = {
 #define VAL_GPIOE_OSPEEDR               (PIN_OSPEED_SPEED_HIGH(UART8_RX) | \
     PIN_OSPEED_SPEED_HIGH(UART8_TX) | \
     PIN_OSPEED_SPEED_VERYLOW(PE02) | \
-    PIN_OSPEED_SPEED_VERYLOW(PE03) | \
-    PIN_OSPEED_SPEED_VERYLOW(PE04) | \
+    PIN_OSPEED_SPEED_VERYLOW(LED1) | \
+    PIN_OSPEED_SPEED_VERYLOW(LED2) | \
     PIN_OSPEED_SPEED_HIGH(S11) | \
     PIN_OSPEED_SPEED_HIGH(S12) | \
     PIN_OSPEED_SPEED_HIGH(UART7_RX) | \
@@ -1287,8 +1289,8 @@ const timerHardware_t timerHardware[] = {
 #define VAL_GPIOE_PUPDR                 (PIN_PUPDR_FLOATING(UART8_RX) | \
     PIN_PUPDR_FLOATING(UART8_TX) | \
     PIN_PUPDR_PULLDOWN(PE02) | \
-    PIN_PUPDR_PULLDOWN(PE03) | \
-    PIN_PUPDR_PULLDOWN(PE04) | \
+    PIN_PUPDR_PULLDOWN(LED1) | \
+    PIN_PUPDR_PULLDOWN(LED2) | \
     PIN_PUPDR_FLOATING(S11) | \
     PIN_PUPDR_FLOATING(S12) | \
     PIN_PUPDR_FLOATING(UART7_RX) | \
@@ -1304,8 +1306,8 @@ const timerHardware_t timerHardware[] = {
 #define VAL_GPIOE_ODR                   (PIN_ODR_LEVEL_HIGH(UART8_RX) | \
     PIN_ODR_LEVEL_HIGH(UART8_TX) | \
     PIN_ODR_LEVEL_LOW(PE02) | \
-    PIN_ODR_LEVEL_LOW(PE03) | \
-    PIN_ODR_LEVEL_LOW(PE04) | \
+    PIN_ODR_LEVEL_LOW(LED1) | \
+    PIN_ODR_LEVEL_LOW(LED2) | \
     PIN_ODR_LEVEL_LOW(S11) | \
     PIN_ODR_LEVEL_LOW(S12) | \
     PIN_ODR_LEVEL_HIGH(UART7_RX) | \
@@ -1321,8 +1323,8 @@ const timerHardware_t timerHardware[] = {
 #define VAL_GPIOE_AFRL      (PIN_AFIO_AF(UART8_RX, 8) | \
                              PIN_AFIO_AF(UART8_TX, 8) | \
                              PIN_AFIO_AF(PE02, 0) | \
-                             PIN_AFIO_AF(PE03, 0) | \
-                             PIN_AFIO_AF(PE04, 0) | \
+                             PIN_AFIO_AF(LED1, 0) | \
+                             PIN_AFIO_AF(LED2, 0) | \
                              PIN_AFIO_AF(S11, 4) | \
                              PIN_AFIO_AF(S12, 4) | \
                              PIN_AFIO_AF(UART7_RX, 8))
