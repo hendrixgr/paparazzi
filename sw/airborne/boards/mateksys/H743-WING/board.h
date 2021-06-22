@@ -87,6 +87,9 @@
 
 #define VBAT_MEAS                      0U
 #define CURRENT_MEAS                   1U
+#define ADC1_2_INP12                   2U
+#define ADC1_2_INP13                   3U
+#define CURRENT_MEAS                   1U
 #define AIRSPEED                       4U
 #define RSSI                           5U
 #define RC2                            6U
@@ -134,7 +137,7 @@
 #define SPI4_CLK                       12U
 #define SPI4_MISO                      13U
 #define SPI4_MOSI                      14U
-#define PE15                           15U
+#define IMU2_EXTI                      15U
 
 #define PF00                           0U
 #define PF01                           1U
@@ -451,8 +454,8 @@ const timerHardware_t timerHardware[] = {
 
 #define LINE_VBAT_MEAS                 PAL_LINE(GPIOC, 0U)
 #define LINE_CURRENT_MEAS              PAL_LINE(GPIOC, 1U)
-//#define LINE_VBAT_MEAS                 PAL_LINE(GPIOC, 2U)
-//#define LINE_CURRENT_MEAS              PAL_LINE(GPIOC, 3U)
+#define LINE_ADC1_2_INP12              PAL_LINE(GPIOC, 2U)
+#define LINE_ADC1_2_INP13              PAL_LINE(GPIOC, 3U)
 #define LINE_AIRSPEED                  PAL_LINE(GPIOC, 4U)
 #define LINE_RSSI                      PAL_LINE(GPIOC, 5U)
 #define LINE_RC2                       PAL_LINE(GPIOC, 6U)
@@ -497,6 +500,7 @@ const timerHardware_t timerHardware[] = {
 #define LINE_SPI4_CLK                  PAL_LINE(GPIOE, 12U)
 #define LINE_SPI4_MISO                 PAL_LINE(GPIOE, 13U)
 #define LINE_SPI4_MOSI                 PAL_LINE(GPIOE, 14U)
+#define LINE_IMU2_EXTI                 PAL_LINE(GPIOE, 15U)
 
 #define LINE_OSC_IN                    PAL_LINE(GPIOH, 0U)
 #define LINE_OSC_OUT                   PAL_LINE(GPIOH, 1U)
@@ -1023,10 +1027,10 @@ const timerHardware_t timerHardware[] = {
                              PIN_AFIO_AF(SPI2_MISO, 5) | \
                              PIN_AFIO_AF(SPI2_MOSI, 5))
 
-#define VAL_GPIOC_MODER                 (PIN_MODE_ANALOG(AIRSPEED) | \
-    PIN_MODE_ANALOG(RSSI) | \
-    PIN_MODE_ANALOG(VBAT_MEAS) | \
+#define VAL_GPIOC_MODER                 (PIN_MODE_ANALOG(VBAT_MEAS) | \
     PIN_MODE_ANALOG(CURRENT_MEAS) | \
+    PIN_MODE_ANALOG(ADC1_2_INP12) | \
+    PIN_MODE_ANALOG(ADC1_2_INP13) | \
     PIN_MODE_ANALOG(AIRSPEED) | \
     PIN_MODE_ANALOG(RSSI) | \
     PIN_MODE_INPUT(RC2) | \
@@ -1040,10 +1044,10 @@ const timerHardware_t timerHardware[] = {
     PIN_MODE_ALTERNATE(OSC32_IN) | \
     PIN_MODE_ALTERNATE(OSC32_OUT))
 
-#define VAL_GPIOC_OTYPER                (PIN_OTYPE_PUSHPULL(AIRSPEED) | \
-    PIN_OTYPE_PUSHPULL(RSSI) | \
-    PIN_OTYPE_PUSHPULL(VBAT_MEAS) | \
+#define VAL_GPIOC_OTYPER                (PIN_OTYPE_PUSHPULL(VBAT_MEAS) | \
     PIN_OTYPE_PUSHPULL(CURRENT_MEAS) | \
+    PIN_OTYPE_PUSHPULL(ADC1_2_INP12) | \
+    PIN_OTYPE_PUSHPULL(ADC1_2_INP13) | \
     PIN_OTYPE_PUSHPULL(AIRSPEED) | \
     PIN_OTYPE_PUSHPULL(RSSI) | \
     PIN_OTYPE_OPENDRAIN(RC2) | \
@@ -1057,10 +1061,10 @@ const timerHardware_t timerHardware[] = {
     PIN_OTYPE_PUSHPULL(OSC32_IN) | \
     PIN_OTYPE_PUSHPULL(OSC32_OUT))
 
-#define VAL_GPIOC_OSPEEDR               (PIN_OSPEED_SPEED_VERYLOW(AIRSPEED) | \
-    PIN_OSPEED_SPEED_VERYLOW(RSSI) | \
-    PIN_OSPEED_SPEED_VERYLOW(VBAT_MEAS) | \
+#define VAL_GPIOC_OSPEEDR               (PIN_OSPEED_SPEED_VERYLOW(VBAT_MEAS) | \
     PIN_OSPEED_SPEED_VERYLOW(CURRENT_MEAS) | \
+    PIN_OSPEED_SPEED_VERYLOW(ADC1_2_INP12) | \
+    PIN_OSPEED_SPEED_VERYLOW(ADC1_2_INP13) | \
     PIN_OSPEED_SPEED_VERYLOW(AIRSPEED) | \
     PIN_OSPEED_SPEED_VERYLOW(RSSI) | \
     PIN_OSPEED_SPEED_VERYLOW(RC2) | \
@@ -1074,11 +1078,11 @@ const timerHardware_t timerHardware[] = {
     PIN_OSPEED_SPEED_HIGH(OSC32_IN) | \
     PIN_OSPEED_SPEED_HIGH(OSC32_OUT))
 
-#define VAL_GPIOC_PUPDR                 (PIN_PUPDR_FLOATING(AIRSPEED) | \
-    PIN_PUPDR_FLOATING(RSSI) | \
-    PIN_PUPDR_FLOATING(VBAT_MEAS) | \
+#define VAL_GPIOC_PUPDR                 (PIN_PUPDR_FLOATING(VBAT_MEAS) | \
     PIN_PUPDR_FLOATING(CURRENT_MEAS) | \
-    PIN_PUPDR_FLOATING(AIRSPEED) | \
+    PIN_PUPDR_FLOATING(VBAT_MEAS) | \
+    PIN_PUPDR_FLOATING(ADC1_2_INP12) | \
+    PIN_PUPDR_FLOATING(ADC1_2_INP13) | \
     PIN_PUPDR_FLOATING(RSSI) | \
     PIN_PUPDR_PULLDOWN(RC2) | \
     PIN_PUPDR_PULLDOWN(RC1) | \
@@ -1091,10 +1095,10 @@ const timerHardware_t timerHardware[] = {
     PIN_PUPDR_FLOATING(OSC32_IN) | \
     PIN_PUPDR_FLOATING(OSC32_OUT))
 
-#define VAL_GPIOC_ODR                   (PIN_ODR_LEVEL_LOW(AIRSPEED) | \
-    PIN_ODR_LEVEL_LOW(RSSI) | \
-    PIN_ODR_LEVEL_LOW(VBAT_MEAS) | \
+#define VAL_GPIOC_ODR                   (PIN_ODR_LEVEL_LOW(VBAT_MEAS) | \
     PIN_ODR_LEVEL_LOW(CURRENT_MEAS) | \
+    PIN_ODR_LEVEL_LOW(ADC1_2_INP12) | \
+    PIN_ODR_LEVEL_LOW(ADC1_2_INP13) | \
     PIN_ODR_LEVEL_LOW(AIRSPEED) | \
     PIN_ODR_LEVEL_LOW(RSSI) | \
     PIN_ODR_LEVEL_HIGH(RC2) | \
@@ -1108,10 +1112,10 @@ const timerHardware_t timerHardware[] = {
     PIN_ODR_LEVEL_HIGH(OSC32_IN) | \
     PIN_ODR_LEVEL_HIGH(OSC32_OUT))
 
-#define VAL_GPIOC_AFRL      (PIN_AFIO_AF(AIRSPEED, 0) | \
-                             PIN_AFIO_AF(RSSI, 0) | \
-                             PIN_AFIO_AF(VBAT_MEAS, 0) | \
+#define VAL_GPIOC_AFRL      (PIN_AFIO_AF(VBAT_MEAS, 0) | \
                              PIN_AFIO_AF(CURRENT_MEAS, 0) | \
+                             PIN_AFIO_AF(ADC1_2_INP12, 0) | \
+                             PIN_AFIO_AF(ADC1_2_INP13, 0) | \
                              PIN_AFIO_AF(AIRSPEED, 0) | \
                              PIN_AFIO_AF(RSSI, 0) | \
                              PIN_AFIO_AF(RC2, 0) | \
@@ -1244,7 +1248,7 @@ const timerHardware_t timerHardware[] = {
     PIN_MODE_ALTERNATE(SPI4_CLK) | \
     PIN_MODE_ALTERNATE(SPI4_MISO) | \
     PIN_MODE_ALTERNATE(SPI4_MOSI) | \
-    PIN_MODE_INPUT(PE15))
+    PIN_MODE_INPUT(IMU2_EXTI))
 
 #define VAL_GPIOE_OTYPER                (PIN_OTYPE_PUSHPULL(UART8_RX) | \
     PIN_OTYPE_PUSHPULL(UART8_TX) | \
@@ -1261,7 +1265,7 @@ const timerHardware_t timerHardware[] = {
     PIN_OTYPE_PUSHPULL(SPI4_CLK) | \
     PIN_OTYPE_PUSHPULL(SPI4_MISO) | \
     PIN_OTYPE_PUSHPULL(SPI4_MOSI) | \
-    PIN_OTYPE_PUSHPULL(PE15))
+    PIN_OTYPE_OPENDRAIN(IMU2_EXTI))
 
 #define VAL_GPIOE_OSPEEDR               (PIN_OSPEED_SPEED_HIGH(UART8_RX) | \
     PIN_OSPEED_SPEED_HIGH(UART8_TX) | \
@@ -1278,7 +1282,7 @@ const timerHardware_t timerHardware[] = {
     PIN_OSPEED_SPEED_HIGH(SPI4_CLK) | \
     PIN_OSPEED_SPEED_HIGH(SPI4_MISO) | \
     PIN_OSPEED_SPEED_HIGH(SPI4_MOSI) | \
-    PIN_OSPEED_SPEED_VERYLOW(PE15))
+    PIN_OSPEED_SPEED_HIGH(IMU2_EXTI))
 
 #define VAL_GPIOE_PUPDR                 (PIN_PUPDR_FLOATING(UART8_RX) | \
     PIN_PUPDR_FLOATING(UART8_TX) | \
@@ -1295,7 +1299,7 @@ const timerHardware_t timerHardware[] = {
     PIN_PUPDR_FLOATING(SPI4_CLK) | \
     PIN_PUPDR_FLOATING(SPI4_MISO) | \
     PIN_PUPDR_FLOATING(SPI4_MOSI) | \
-    PIN_PUPDR_PULLDOWN(PE15))
+    PIN_PUPDR_PULLUP(IMU2_EXTI))
 
 #define VAL_GPIOE_ODR                   (PIN_ODR_LEVEL_HIGH(UART8_RX) | \
     PIN_ODR_LEVEL_HIGH(UART8_TX) | \
@@ -1312,7 +1316,7 @@ const timerHardware_t timerHardware[] = {
     PIN_ODR_LEVEL_HIGH(SPI4_CLK) | \
     PIN_ODR_LEVEL_HIGH(SPI4_MISO) | \
     PIN_ODR_LEVEL_HIGH(SPI4_MOSI) | \
-    PIN_ODR_LEVEL_LOW(PE15))
+    PIN_ODR_LEVEL_HIGH(IMU2_EXTI))
 
 #define VAL_GPIOE_AFRL      (PIN_AFIO_AF(UART8_RX, 8) | \
                              PIN_AFIO_AF(UART8_TX, 8) | \
@@ -1330,7 +1334,7 @@ const timerHardware_t timerHardware[] = {
                              PIN_AFIO_AF(SPI4_CLK, 5) | \
                              PIN_AFIO_AF(SPI4_MISO, 5) | \
                              PIN_AFIO_AF(SPI4_MOSI, 5) | \
-                             PIN_AFIO_AF(PE15, 0))
+                             PIN_AFIO_AF(IMU2_EXTI, 0))
 
 #define VAL_GPIOF_MODER                 (PIN_MODE_INPUT(PF00) | \
     PIN_MODE_INPUT(PF01) | \
