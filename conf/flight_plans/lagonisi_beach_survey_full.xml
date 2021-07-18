@@ -129,7 +129,9 @@ h_ctl setpoints variable are set by the h_ctl_attitude_loop() (from fw_h_ctl.c) 
       <exception cond="electrical.bat_low&&(autopilot.mode == AP_MODE_AUTO2)&&(GetPosAlt() > GetAltRef()+20)" deroute="Land"/>
       <exception cond="radio_control.status == RC_REALLY_LOST&&(autopilot.mode == AP_MODE_AUTO2)&&(GetPosAlt() > GetAltRef()+20)" deroute="Land"/>
 <!--  <exception cond="((imcu_get_radio(RADIO_THROTTLE) > (MAX_PPRZ/2))&&(autopilot.mode == AP_MODE_AUTO2))" deroute="UPDATE_Standby"/> -->
+      <set value="true" var="autopilot.launch"/>
       <set value="false" var="h_ctl_disabled"/>
+      <set value="false" var="autopilot.kill_throttle"/>
       <call_once fun="imcu_set_command(COMMAND_FLAPS, 0)"/>
       <set value="CAM_MODE_WP_HOME" var="cam_mode"/>
       <set value="DEFAULT_CIRCLE_RADIUS" var="nav_radius"/>
