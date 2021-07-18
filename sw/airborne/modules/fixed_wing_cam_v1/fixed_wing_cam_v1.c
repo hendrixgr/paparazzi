@@ -725,8 +725,8 @@ static void point_cam(float fObjectEast, float fObjectNorth, float fAltitude)
     //THE BELOW CODE IS ONLY EXECUTED IN CAM_MODE_WP_TARGET OR CAM_MODE_XY_TARGET
     // The below code calculates distance of target from home in meters.
     if (cnt1 >= (FIXED_WING_CAM_PERIODIC_FREQ / 5)) { // latlong_of_utm() is cpu intensive so i run it slower
-      cam_point_distance_from_home = (uint16_t) fabs(((uint16_t)((sqrt((fObjectNorth * fObjectNorth) +
-                                     (fObjectEast * fObjectEast))) / 10)) - ((uint16_t)((sqrt((pos->y * pos->y) + (pos->x * pos->x))) / 10)));
+      cam_point_distance_from_home = (uint16_t) fabs((((sqrt((fObjectNorth * fObjectNorth) +
+                                     (fObjectEast * fObjectEast))) / 10)) - (((sqrt((pos->y * pos->y) + (pos->x * pos->x))) / 10)));
       struct UtmCoor_f utm;
       utm.east = nav_utm_east0 + fObjectEast;
       utm.north = nav_utm_north0 + fObjectNorth;
